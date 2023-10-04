@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import User, { UserDocument } from "../models/users.model";
 
+// utils
+import { generateAvatar } from "../utils/avatar";
+
 // Create a new user
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -16,8 +19,11 @@ export const createUser = async (req: Request, res: Response) => {
       return;
     }
 
+    const avatar = generateAvatar(name);
+
     const newUser: UserDocument = new User({
       name,
+      avatar,
     });
 
     await newUser.save();
@@ -59,6 +65,7 @@ export const updateUserById = async (req: Request, res: Response) => {
 
     // Update the user's name
     existingUser.name = name;
+    existingUser.avatar = generateAvatar(name);
 
     // Save the updated user
     const updatedUser: UserDocument = await existingUser.save();
