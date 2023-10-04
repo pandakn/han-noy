@@ -1,17 +1,17 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, ObjectId, Schema, Types } from "mongoose";
 import { UserDocument } from "./users.model";
-import { MenuDocument } from "./menus.model";
+
+export interface IUser {
+  user: Types.ObjectId | UserDocument;
+  amount: number;
+}
 
 export interface RoomDocument extends Document {
   name: string;
-  users: Array<{ user: Types.ObjectId | UserDocument; amount: number }>;
-  menus: Array<{
-    menu: Types.ObjectId | MenuDocument;
-    payer: Types.ObjectId | UserDocument;
-    price: number;
-    amount: number;
-  }>;
+  bio: string;
+  users: IUser[];
   qrCode: string;
+  bill: ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,22 +22,21 @@ const roomSchema: Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bio: {
+      type: String,
+    },
     users: [
       {
         user: { type: mongoose.Types.ObjectId, ref: "User" },
         amount: Number, // sum amount from menus
       },
     ],
-    menus: [
-      {
-        menu: { type: mongoose.Types.ObjectId, ref: "Menu" },
-        payer: [{ type: mongoose.Types.ObjectId, ref: "User" }],
-        price: Number,
-        amount: Number, // price / len(payer)
-      },
-    ],
     qrCode: {
       type: String,
+    },
+    bill: {
+      type: mongoose.Types.ObjectId,
+      ref: "Bill",
     },
   },
   { timestamps: true }
