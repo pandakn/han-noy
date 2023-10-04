@@ -1,9 +1,9 @@
-import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface UserDocument extends Document {
   name: string;
   avatar: string;
-  rooms: ObjectId[];
+  rooms: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +22,7 @@ const userSchema: Schema = new mongoose.Schema(
       {
         type: mongoose.Types.ObjectId,
       },
+      { _id: false },
     ],
   },
   { timestamps: true }
