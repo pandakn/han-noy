@@ -21,6 +21,7 @@ const roomSchema: Schema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     bio: {
       type: String,
@@ -29,6 +30,7 @@ const roomSchema: Schema = new mongoose.Schema(
       {
         user: { type: mongoose.Types.ObjectId, ref: "User" },
         amount: Number, // sum amount from menus
+        _id: false,
       },
     ],
     qrCode: {
