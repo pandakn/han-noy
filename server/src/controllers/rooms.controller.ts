@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Bill, { BillDocument } from "../models/bills.model";
 import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
-import { addUserToRoom } from "../services/rooms.service";
+import { addUserToRoom, removeBillFromMenus } from "../services/rooms.service";
 import { generateQrCodePromptPay } from "../utils/promptPay";
 
 export const getAllRooms = async (req: Request, res: Response) => {
@@ -77,7 +77,9 @@ export const createRoom = async (req: Request, res: Response) => {
         const existingRoom = await Room.findOne({ name });
 
         if (existingRoom) {
-            return res.status(400).json({ message: "Room name must be unique" });
+            return res
+                .status(400)
+                .json({ message: "Room name must be unique" });
         }
 
         // Create a new room
@@ -92,7 +94,10 @@ export const createRoom = async (req: Request, res: Response) => {
         newRoom.bill = newBill._id;
         await newRoom.save();
 
-        res.status(201).json({ message: "Room created successfully", room: newRoom });
+        res.status(201).json({
+            message: "Room created successfully",
+            room: newRoom,
+        });
     } catch (error) {
         console.error("Error creating room:", error);
         res.status(500).json({ message: "Error creating room" });
@@ -102,6 +107,7 @@ export const createRoom = async (req: Request, res: Response) => {
 export const deleteRoomById = async (req: Request, res: Response) => {
     try {
         const { roomId } = req.params;
+
         const room: RoomDocument | null = await Room.findById(roomId);
 
         if (!room) {
@@ -109,9 +115,13 @@ export const deleteRoomById = async (req: Request, res: Response) => {
         }
 
         const bill = await Bill.findOne({ room: room._id });
+        const menuIds = bill.menus.map((menu) => menu.menu);
 
         if (bill) {
             await bill.deleteOne();
+
+            // Update the menu with the new bill ID
+            await removeBillFromMenus(bill._id);
         }
 
         // Get the users associated with the room
@@ -120,7 +130,10 @@ export const deleteRoomById = async (req: Request, res: Response) => {
         await Room.deleteOne({ _id: roomId });
 
         // remove the room from the users' rooms array
-        await User.updateMany({ _id: { $in: roomUsers } }, { $pull: { rooms: roomId } });
+        await User.updateMany(
+            { _id: { $in: roomUsers } },
+            { $pull: { rooms: { roomId: room._id } } }
+        );
 
         res.status(204).end();
     } catch (error) {
@@ -174,15 +187,21 @@ export const removeUserFromRoom = async (req: Request, res: Response) => {
         }
 
         // Remove the user's ID from the room's users array
-        room.users = room.users.filter((roomUser) => !roomUser.equals(user._id));
+        room.users = room.users.filter(
+            (roomUser) => !roomUser.equals(user._id)
+        );
 
         // Remove the room's ObjectId from the user's rooms array
-        user.rooms = user.rooms.filter((userRoom) => !userRoom.roomId.equals(room._id));
+        user.rooms = user.rooms.filter(
+            (userRoom) => !userRoom.roomId.equals(room._id)
+        );
 
         // Save the updated room and user
         await Promise.all([room.save(), user.save()]);
 
-        res.status(200).json({ message: "User removed from the room successfully" });
+        res.status(200).json({
+            message: "User removed from the room successfully",
+        });
     } catch (error) {
         console.error("Error removing user from room:", error);
         res.status(500).json({ message: "Error removing user from room" });
