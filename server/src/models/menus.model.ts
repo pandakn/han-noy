@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface MenuDocument extends Document {
   title: string;
-  bills: ObjectId[];
+  bills: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 }

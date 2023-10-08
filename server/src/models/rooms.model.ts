@@ -1,15 +1,10 @@
 import mongoose, { Document, ObjectId, Schema, Types } from "mongoose";
 import { UserDocument } from "./users.model";
 
-export interface IUser {
-  user: Types.ObjectId | UserDocument;
-  amount: number;
-}
-
 export interface RoomDocument extends Document {
   name: string;
   bio: string;
-  users: IUser[];
+  users: Types.ObjectId[];
   qrCode: string;
   bill: ObjectId;
   createdAt: Date;
@@ -26,13 +21,7 @@ const roomSchema: Schema = new mongoose.Schema(
     bio: {
       type: String,
     },
-    users: [
-      {
-        user: { type: mongoose.Types.ObjectId, ref: "User" },
-        amount: Number, // sum amount from menus
-        _id: false,
-      },
-    ],
+    users: [{ type: mongoose.Types.ObjectId, ref: "User" }, { _id: false }],
     qrCode: {
       type: String,
     },
