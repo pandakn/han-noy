@@ -1,9 +1,68 @@
-import { Types } from "mongoose";
+import { PopulateOptions, Types } from "mongoose";
 import Menu, { MenuDocument } from "../models/menus.model";
-import { RoomDocument } from "../models/rooms.model";
+import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
 import { generateAvatar } from "../utils/avatar";
-import { IMenu } from "../models/bills.model";
+
+export const findRoomById = async (
+    roomId: string
+): Promise<RoomDocument | null> => {
+    try {
+        const room = await Room.findOne({ _id: roomId })
+            .populate({
+                path: "users",
+                select: "-rooms.roomId", // Exclude the roomId field
+            })
+            .populate({
+                path: "bill",
+                populate: {
+                    path: "menus.menu",
+                    select: "title",
+                },
+            })
+            .populate({
+                path: "bill",
+                select: "-room", // Exclude the room field
+                populate: {
+                    path: "menus.payers",
+                },
+            });
+
+        return room;
+    } catch (error) {
+        console.error("Error getting room by ID:", error);
+        throw new Error("Error getting room by ID");
+    }
+};
+
+export async function findAllRooms(): Promise<RoomDocument[]> {
+    try {
+        const rooms: RoomDocument[] = await Room.find()
+            .populate({
+                path: "users",
+                select: "-rooms.roomId", // Exclude the roomId field
+            })
+            .populate({
+                path: "bill",
+                populate: {
+                    path: "menus.menu",
+                    select: "title",
+                },
+            })
+            .populate({
+                path: "bill",
+                select: "-room", // Exclude the room field
+                populate: {
+                    path: "menus.payers",
+                },
+            });
+
+        return rooms;
+    } catch (error) {
+        console.error("Error getting rooms:", error);
+        throw new Error("Error getting rooms");
+    }
+}
 
 export const addUserToRoom = async (
     room: RoomDocument,
