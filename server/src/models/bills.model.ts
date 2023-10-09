@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-import { RoomDocument } from "./rooms.model";
 import { UserDocument } from "./users.model";
 
 // Define the Menu type as you've done before
@@ -14,7 +13,7 @@ export interface IMenu {
 // Define the BillDocument interface as you've done before
 export interface BillDocument extends Document {
     menus: IMenu[];
-    room: Types.ObjectId | RoomDocument;
+    room: Types.ObjectId;
     totalPrice: number;
     createdAt: Date;
     updatedAt: Date;
@@ -50,7 +49,7 @@ const billSchema: Schema<BillDocument> = new mongoose.Schema(
             type: Number,
         },
         room: {
-            type: mongoose.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "Room",
         },
     },
