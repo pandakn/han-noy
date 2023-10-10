@@ -1,0 +1,11 @@
+<div class="card card-compact w-full bg-base-100 shadow-xl">
+    <figure>
+        <img [src]="qrCode" alt="qrCode" />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">
+            <a [routerLink]="'/room/' + id">{{ name }}</a>
+        </h2>
+        <p>{{ bio }}</p>
+    </div>
+</div>
