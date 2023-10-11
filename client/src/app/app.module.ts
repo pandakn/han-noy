@@ -10,6 +10,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { CardComponent } from "./components/room/card/card.component";
 import { RoomComponent } from "./components/room/room.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AutocompleteLibModule } from "angular-ng-autocomplete";
+import { AutocompleteComponent } from "./components/room/autocomplete/autocomplete.component";
+import { MenuCardComponent } from "./components/room/menu-card/menu-card.component";
 
 @NgModule({
     declarations: [
@@ -19,6 +22,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         ShowRoomComponent,
         CardComponent,
         RoomComponent,
+        AutocompleteComponent,
+        MenuCardComponent,
     ],
     imports: [
         BrowserModule,
@@ -26,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
+        AutocompleteLibModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

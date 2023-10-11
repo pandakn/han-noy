@@ -1,0 +1,11 @@
+<div class="grid grid-cols-[70%15%15%] items-center mb-10 border">
+    <p class="text-[20px] text-[#684123]">{{ title }}</p>
+    <p class="text-[14px] text-[#684123] mt-2">{{ price }}</p>
+    <p class="text-[14px] text-[#B87644] mt-2">{{ amount }}</p>
+    <div class="flex gap-2 mt-4">
+        <div *ngFor="let payer of payers">
+            <p class="border">{{ payer.name }}</p>
+            <img [src]="payer.avatar" [alt]="payer.name" />
+        </div>
+    </div>
+</div>
