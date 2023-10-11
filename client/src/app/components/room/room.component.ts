@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { IRoom } from "src/app/interfaces/room.interface";
 import { RoomService } from "src/app/services/room/room.service";
 
@@ -7,12 +7,15 @@ import { RoomService } from "src/app/services/room/room.service";
     templateUrl: "./room.component.html",
     styleUrls: ["./room.component.css"],
 })
-export class RoomComponent {
+export class RoomComponent implements OnInit {
     rooms: IRoom[] = [];
     constructor(private roomService: RoomService) {}
 
     ngOnInit(): void {
         this.fetchRooms();
+        this.roomService.refreshRequired.subscribe((respone) => {
+            this.fetchRooms();
+        });
     }
 
     fetchRooms() {
