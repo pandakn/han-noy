@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { IMenu } from "src/app/interfaces/bill.interface";
 import { IRoom } from "src/app/interfaces/room.interface";
+import { Menu, MenuService } from "src/app/services/menu/menu.service";
 import { RoomService } from "src/app/services/room/room.service";
 
 @Component({
@@ -11,14 +13,19 @@ import { RoomService } from "src/app/services/room/room.service";
 export class ShowRoomComponent {
     roomId: string | null = "";
     room!: IRoom;
+    keyword = "title";
+    menus!: Menu[];
+    menusInBill!: IMenu[];
 
     constructor(
         private route: ActivatedRoute,
-        private roomService: RoomService
+        private roomService: RoomService,
+        private menuService: MenuService
     ) {}
 
     ngOnInit() {
         this.roomId = this.route.snapshot.paramMap.get("id");
+        this.fetchMenus();
         this.fetchRoomById(this.roomId);
     }
 
@@ -26,7 +33,19 @@ export class ShowRoomComponent {
         this.roomService.getRoomById(roomId as string).subscribe({
             next: (room) => {
                 this.room = room;
-                console.log("rooms", this.room);
+                // this.data = room.bill.menus;
+                // console.log("room", this.room);
+                this.menusInBill = this.room.bill.menus;
+                console.log("menu", this.menusInBill);
+            },
+        });
+    }
+
+    fetchMenus() {
+        this.menuService.getMenu().subscribe({
+            next: (menus) => {
+                this.menus = menus;
+                console.log("menus", this.menus);
             },
         });
     }
