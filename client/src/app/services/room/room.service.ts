@@ -61,4 +61,8 @@ export class RoomService {
             })
         );
     }
+
+    deleteRoomById(roomId: string) {
+        return this.http.delete(`${this.apiUrl}/rooms/${roomId}`);
+    }
 }

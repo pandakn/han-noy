@@ -13,7 +13,7 @@ export class RoomComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchRooms();
-        this.roomService.refreshRequired.subscribe((respone) => {
+        this.roomService.refreshRequired.subscribe(() => {
             this.fetchRooms();
         });
     }

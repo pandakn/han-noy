@@ -2,6 +2,10 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { RoomPayload, RoomService } from "src/app/services/room/room.service";
 
+type closeModal = {
+    close: "dialog";
+};
+
 @Component({
     selector: "app-create-room",
     templateUrl: "./create-room.component.html",
