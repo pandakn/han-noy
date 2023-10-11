@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { RoomService } from "src/app/services/room/room.service";
 
 @Component({
     selector: "app-card",
@@ -14,5 +15,20 @@ export class CardComponent {
 
     // () => <return type>
     // in bracket is params
-    constructor() {}
+    constructor(private roomService: RoomService) {}
+
+    handleDeleteRoom(roomId: string) {
+        console.log(`clicked id : ${roomId}`);
+
+        this.roomService.deleteRoomById(roomId).subscribe({
+            next: (response) => {
+                console.log("Room deleted successfully:", response);
+                // Optionally, you can perform additional actions here.
+                window.location.reload();
+            },
+            error: (error) => {
+                console.error("Error deleting room:", error);
+            },
+        });
+    }
 }

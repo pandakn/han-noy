@@ -2,7 +2,11 @@
 module.exports = {
     content: ["./src/**/*.{html,ts}"],
     theme: {
-        extend: {},
+        extend: {
+            boxShadow: {
+                b: "0 4px 0"
+            }
+        },
     },
     plugins: [require("daisyui")],
 };

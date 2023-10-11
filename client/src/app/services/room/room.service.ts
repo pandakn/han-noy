@@ -1,8 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
+import { Observable, Subject, map, tap } from "rxjs";
 import { IRoom, RoomResponse } from "src/app/interfaces/room.interface";
 import { environment } from "src/environments/environment.development";
+
+export interface RoomPayload {
+    name: string;
+    bio: string;
+    promptPay: string;
+}
 
 @Injectable({
     providedIn: "root",
@@ -13,6 +19,20 @@ export class RoomService {
     apiUrl = environment.apiUrl;
 
     rooms: IRoom[] = [];
+
+    private _refreshRequired = new Subject<void>();
+
+    get refreshRequired() {
+        return this._refreshRequired;
+    }
+
+    addRoom(roomData: any) {
+        return this.http.post(`${this.apiUrl}/rooms`, roomData).pipe(
+            tap(() => {
+                this.refreshRequired.next();
+            })
+        );
+    }
 
     getRooms(): Observable<IRoom[]> {
         return this.http.get<RoomResponse>(`${this.apiUrl}/rooms`).pipe(
@@ -40,5 +60,9 @@ export class RoomService {
                 return data.result;
             })
         );
+    }
+
+    deleteRoomById(roomId: string) {
+        return this.http.delete(`${this.apiUrl}/rooms/${roomId}`);
     }
 }

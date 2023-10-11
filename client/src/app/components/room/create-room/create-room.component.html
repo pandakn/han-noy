@@ -1,3 +1,61 @@
-<div class="mb-4">
-    <p>create-room works!</p>
-</div>
+<button class="btn" onclick="my_modal_1.showModal()">open modal</button>
+
+<!-- modal -->
+<dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+        <section class="py-6 dark:bg-gray-800 dark:text-gray-50">
+            <form
+                [formGroup]="roomForm"
+                novalidate=""
+                class="flex flex-col py-6 space-y-6 md:py-0 md:px-6"
+            >
+                <label class="block">
+                    <span class="mb-1">Prompt Pay</span>
+                    <input
+                        formControlName="promptPay"
+                        type="tel"
+                        placeholder="Type your PromptPay..."
+                        class="block input input-bordered w-full mt-2"
+                    />
+                    <div
+                        *ngIf="roomForm.get('promptPay')?.hasError('required')"
+                    >
+                        This field is required.
+                    </div>
+                    <div
+                        *ngIf="roomForm.get('promptPay')?.hasError('pattern')"
+                        class="text-red-500"
+                    >
+                        Prompt Pay must be 10-13 digits.
+                    </div>
+                </label>
+                <label class="block">
+                    <span class="mb-1">Room Name</span>
+                    <input
+                        formControlName="name"
+                        type="text"
+                        placeholder="Type here"
+                        class="block input input-bordered w-full mt-2"
+                        placeholder="Type your room name..."
+                    />
+                </label>
+                <label class="block">
+                    <span class="mb-1">Bio</span>
+                    <textarea
+                        formControlName="bio"
+                        class="textarea textarea-bordered w-full resize-none mt-2"
+                        placeholder="Type your bio..."
+                    ></textarea>
+                </label>
+            </form>
+        </section>
+
+        <!--  -->
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+            <button class="btn" (click)="onSubmitForm()">Submit Der</button>
+        </div>
+    </div>
+</dialog>
