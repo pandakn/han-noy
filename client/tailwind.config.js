@@ -4,9 +4,10 @@ module.exports = {
     theme: {
         extend: {
             boxShadow: {
-                b: "0 4px 0"
-            }
+                b: "0 4px 0",
+            },
         },
     },
     plugins: [require("daisyui")],
+    themes: ["light", "lofi", "dark", "cupcake"],
 };
