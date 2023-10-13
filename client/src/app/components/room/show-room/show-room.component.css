@@ -1,0 +1,4 @@
+.hider::-webkit-scrollbar {
+    scroll-behavior: smooth;
+    display: none;
+}
