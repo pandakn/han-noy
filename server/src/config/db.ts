@@ -5,6 +5,7 @@ dotenv.config(); // Load environment variables
 
 // const DB_NAME = "han_noy";
 
+
 export async function connectToDatabase() {
   try {
     await mongoose.connect(process.env.MONGODB_URI!, {

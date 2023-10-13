@@ -69,7 +69,6 @@ export const updateUserById = async (req: Request, res: Response) => {
 
     // Save the updated user
     const updatedUser: UserDocument = await existingUser.save();
-
     res
       .status(200)
       .json({ message: "User updated successfully", user: updatedUser });

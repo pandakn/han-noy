@@ -1,4 +1,4 @@
-<button class="btn" onclick="my_modal_1.showModal()">open modal</button>
+<button class="min-w-[130px] btn rounded-md btn-outline btn-md" onclick="my_modal_1.showModal()">Create Room</button>
 
 <!-- modal -->
 <dialog id="my_modal_1" class="modal">
@@ -26,7 +26,7 @@
                         *ngIf="roomForm.get('promptPay')?.hasError('pattern')"
                         class="text-red-500"
                     >
-                        Prompt Pay must be 10-13 digits.
+                        Prompt Pay must be 10 digits.
                     </div>
                 </label>
                 <label class="block">
