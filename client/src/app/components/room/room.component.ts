@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { IRoom } from "src/app/interfaces/room.interface";
 import { RoomService } from "src/app/services/room/room.service";
 
@@ -9,6 +9,7 @@ import { RoomService } from "src/app/services/room/room.service";
 })
 export class RoomComponent implements OnInit {
     rooms: IRoom[] = [];
+    searchText = "";
     constructor(private roomService: RoomService) {}
 
     ngOnInit(): void {
@@ -22,7 +23,7 @@ export class RoomComponent implements OnInit {
         this.roomService.getRooms().subscribe({
             next: (rooms) => {
                 this.rooms = rooms;
-                console.log("rooms", this.rooms);
+                // console.log("rooms", this.rooms);
             },
         });
     }

@@ -1,10 +1,15 @@
-<div class="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2 px-6">
-    <div *ngFor="let room of rooms">
-        <app-card
-            [id]="room._id"
-            [name]="room.name"
-            [bio]="room.bio"
-            [qrCode]="room.qrCode"
-        ></app-card>
+<div class="px-6">
+    <div class="py-4">
+        <app-search-bar [(searchText)]="searchText"></app-search-bar>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 md:grid-cols-2">
+        <div *ngFor="let room of rooms | FilterPipe : searchText : 'name'">
+            <app-card
+                [id]="room._id"
+                [name]="room.name"
+                [bio]="room.bio"
+                [qrCode]="room.qrCode"
+            ></app-card>
+        </div>
     </div>
 </div>

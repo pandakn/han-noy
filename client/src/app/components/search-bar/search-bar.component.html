@@ -1,0 +1,33 @@
+<div class="mx-auto w-full">
+    <div
+        class="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden"
+    >
+        <!-- icon -->
+        <div class="grid place-items-center h-full w-12 text-gray-300">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-search"
+            >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+            </svg>
+        </div>
+
+        <input
+            [(ngModel)]="searchText"
+            (ngModelChange)="onSearchTextChange($event)"
+            class="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+            type="text"
+            id="search"
+            placeholder="Search room..."
+        />
+    </div>
+</div>

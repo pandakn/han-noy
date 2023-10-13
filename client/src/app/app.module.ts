@@ -15,9 +15,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
 import { AutocompleteComponent } from "./components/room/autocomplete/autocomplete.component";
 import { MenuCardComponent } from "./components/room/menu-card/menu-card.component";
-import { AddMenuComponent } from './components/bill/add-menu/add-menu.component';
+import { AddMenuComponent } from "./components/bill/add-menu/add-menu.component";
 import { UpdateRoomComponent } from "./components/room/update-room/update-room.component";
-
+import { FilterPipe } from "./filter/filter.pipe";
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,9 @@ import { UpdateRoomComponent } from "./components/room/update-room/update-room.c
         AutocompleteComponent,
         MenuCardComponent,
         AddMenuComponent,
-        UpdateRoomComponent
+        UpdateRoomComponent,
+        FilterPipe,
+        SearchBarComponent,
     ],
     imports: [
         CommonModule,
@@ -42,10 +45,8 @@ import { UpdateRoomComponent } from "./components/room/update-room/update-room.c
         HttpClientModule,
         FormsModule,
         AutocompleteLibModule,
-
     ],
     providers: [],
     bootstrap: [AppComponent],
-
 })
 export class AppModule {}
