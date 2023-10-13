@@ -3,6 +3,10 @@
     <p class="text-[14px] text-[#684123] mt-2">{{ price }}</p>
     <p class="text-[14px] text-[#B87644] mt-2">{{ amount }}</p>
     <div class="flex gap-2 mt-4">
+        <div *ngIf="!!slip">
+            <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
+        </div>
+
         <div *ngFor="let payer of payers">
             <p class="border">{{ payer.name }}</p>
             <img [src]="payer.avatar" [alt]="payer.name" />

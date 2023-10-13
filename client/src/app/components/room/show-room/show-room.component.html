@@ -18,15 +18,14 @@
         </div>
     </div>
 </div> -->
-
-<!-- <app-autocomplete
-    [data]="menus"
-    keyword="title"
-    class="w-full"
-></app-autocomplete> -->
-
 <div class="">
     <div class="mb-[10px] min-w-[390px] w-[390px] mx-auto mt-[27px]">
+        <!-- info -->
+        <div class="flex justify-between items-center">
+            <h1 class="text-center text-3xl">{{ room.name }}</h1>
+            <h3 class="text-center text-3xl">{{ room.bill.totalPrice }}฿</h3>
+            <img src="{{ room.qrCode }}" alt="prompt pay" class="w-40 h-40" />
+        </div>
         <div class="px-[49px] mt-[27px] flex cursor-pointer">
             <div
                 class="bg-[#E3B7A0] rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none transition-all duration-300"
@@ -103,15 +102,25 @@
                 <app-autocomplete
                     [data]="menus"
                     [keyword]="keyword"
+                    (selectedMenuEvent)="receiveSelectedMenu($event)"
                     class="w-full"
                 ></app-autocomplete>
             </div>
             <div class="text-end ml-2 col-end-3">
-                <button
-                    class="bg-[#E3B7A0] w-[60px] h-[25.86px] text-[13px] rounded-md text-[#684123] shadow-[#BF9270] shadow-b active:translate-y-1 active:shadow-none transition-all duration-300"
+                <!-- <button
+                    [disabled]="!selectedMenu"
+                    (click)="setIsShowAddMenuModal()"
+                    class="bg-[#E3B7A0] w-[60px] h-[25.86px] text-[13px] rounded-md text-[#684123] shadow-[#BF9270] shadow-b active:translate-y-1 active:shadow-none transition-all duration-300 disabled:opacity-50"
                 >
                     เพิ่ม
-                </button>
+                </button> -->
+
+                <app-add-menu
+                    [selectedMenu]="selectedMenu"
+                    [billId]="room.bill._id"
+                    [usersInRoom]="room.users"
+                    [isDisable]="!!selectedMenu"
+                ></app-add-menu>
             </div>
         </div>
         <div class="grid grid-cols-[70%15%15%] items-center mb-[18px]">
@@ -131,6 +140,7 @@
                 [price]="menu.price"
                 [amount]="menu.amount"
                 [payers]="menu.payers"
+                [slip]="menu.slip"
             ></app-menu-card>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Menu } from "src/app/services/menu/menu.service";
 
 @Component({
@@ -10,20 +10,20 @@ export class AutocompleteComponent {
     @Input() data!: Menu[];
     @Input() keyword!: string;
 
-    selectedVal = "";
+    selectedMenu!: string;
 
     constructor() {}
 
+    @Output() selectedMenuEvent = new EventEmitter<string>();
+
     selectEvent(item: Menu) {
-        // do something with selected item
-        // console.log(item);
-        this.selectedVal = item.title;
-        console.log("selected:", this.selectedVal);
+        this.selectedMenu = item.title;
+        this.selectedMenuEvent.emit(this.selectedMenu);
     }
 
     onChangeSearch(val: string) {
-        // console.log(val);
-        this.selectedVal = val;
-        console.log("selected:", this.selectedVal);
+        this.selectedMenu = val;
+        this.selectedMenuEvent.emit(this.selectedMenu);
+        // console.log("selected:", this.selectedVal);
     }
 }
