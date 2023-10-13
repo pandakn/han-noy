@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
 import { AutocompleteComponent } from "./components/room/autocomplete/autocomplete.component";
 import { MenuCardComponent } from "./components/room/menu-card/menu-card.component";
+import { AddMenuComponent } from './components/bill/add-menu/add-menu.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { MenuCardComponent } from "./components/room/menu-card/menu-card.compone
         RoomComponent,
         AutocompleteComponent,
         MenuCardComponent,
+        AddMenuComponent,
     ],
     imports: [
         BrowserModule,

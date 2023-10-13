@@ -74,6 +74,35 @@ export const createRoom = async (req: Request, res: Response) => {
     }
 };
 
+export const updateRoomById = async (req: Request, res: Response) => {
+    try {
+        const { roomId } = req.params;
+        const { name, bio, promptPay } = req.body;
+
+        const qrCode = generateQrCodePromptPay(promptPay);
+
+        const room: RoomDocument | null = await Room.findById(roomId);
+
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        room.name = name;
+        room.bio = bio;
+        room.qrCode = qrCode;
+
+        // Save the updated rooms
+        const updatedRoom: RoomDocument = await room.save();
+        res.status(200).json({
+            message: "Room updated successfully",
+            updatedRoom,
+        });
+    } catch (error) {
+        console.error("Error updating room:", error);
+        res.status(500).json({ message: "Error updating room" });
+    }
+};
+
 export const deleteRoomById = async (req: Request, res: Response) => {
     try {
         const { roomId } = req.params;

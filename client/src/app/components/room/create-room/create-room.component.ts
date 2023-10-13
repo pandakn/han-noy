@@ -17,7 +17,7 @@ export class CreateRoomComponent {
     roomForm = new FormGroup({
         name: new FormControl("", Validators.required), // Add validation if needed
         bio: new FormControl(""),
-        promptPay: new FormControl("", Validators.pattern(/^\d{10,13}$/)), // Validate for 10-13 characters
+        promptPay: new FormControl("", Validators.pattern(/^\d{10}$/)), // Validate for 10-13 characters
     });
 
     onSubmitForm() {

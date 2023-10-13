@@ -1,0 +1,6 @@
+.btn {
+    height: 2rem /* 48px */;
+    padding-left: 1rem /* 16px */;
+    padding-right: 1rem /* 16px */;
+    min-height: 40px /* 48px */;
+}

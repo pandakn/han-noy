@@ -1,4 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { IUser } from "src/app/interfaces/user.interface";
+import { environment } from "src/environments/environment.development";
 
 @Component({
     selector: "app-menu-card",
@@ -9,7 +11,10 @@ export class MenuCardComponent {
     @Input() title: string = "";
     @Input() price: number = 0;
     @Input() amount: number = 0;
-    @Input() payers: any;
+    @Input() payers!: IUser[];
+    @Input() slip!: string;
+
+    imageUrl = environment.apiUrlImage;
 
     constructor() {}
 }
