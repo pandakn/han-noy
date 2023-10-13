@@ -1,0 +1,85 @@
+<button (click)="openModal()">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-7 h-7 text-sky-500 hover:text-sky-300 hover:cursor-pointer"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+        />
+    </svg>
+</button>
+
+<!-- Modal -->
+
+<dialog #myModal class="modal">
+    <div class="modal-box">
+        <form
+            (ngSubmit)="handleUpdateRoom()"
+            [formGroup]="updateRoom"
+            novalidate=""
+            class="flex flex-col space-y-5"
+        >
+            <h3 class="text-3xl font-bold dark:text-white py-1 text-gray-700">
+                Update Room
+            </h3>
+            <label class="block">
+                <span class="mb-1">Prompt Pay</span>
+                <input
+                    formControlName="promptPay"
+                    type="tel"
+                    placeholder="Type your PromptPay..."
+                    class="block input input-bordered w-full mt-2"
+                />
+                <div *ngIf="updateRoom.get('promptPay')?.hasError('required')">
+                    This field is required.
+                </div>
+                <div
+                    *ngIf="updateRoom.get('promptPay')?.hasError('pattern')"
+                    class="text-red-500"
+                >
+                    Prompt Pay must be 10 digits.
+                </div>
+            </label>
+            <label class="block">
+                <span class="mb-1">Room Name</span>
+                <input
+                    formControlName="name"
+                    type="text"
+                    placeholder="Type here"
+                    class="block input input-bordered w-full mt-2"
+                    placeholder="Type your room name..."
+                />
+            </label>
+            <label class="block">
+                <span class="mb-1">Bio</span>
+                <textarea
+                    formControlName="bio"
+                    class="textarea textarea-bordered w-full resize-none mt-2"
+                    placeholder="Type your bio..."
+                ></textarea>
+            </label>
+            <div class="flex flex-row justify-end">
+                <button class="btn btn-sm btn-info" type="submit">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+        <!-- Modal Actions -->
+        <div class="modal-action">
+            <form method="dialog">
+                <button
+                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                >
+                    ✕
+                </button>
+            </form>
+        </div>
+    </div>
+</dialog>
