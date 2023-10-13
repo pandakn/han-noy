@@ -15,12 +15,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
 import { AutocompleteComponent } from "./components/room/autocomplete/autocomplete.component";
 import { MenuCardComponent } from "./components/room/menu-card/menu-card.component";
-<<<<<<< HEAD
 import { AddMenuComponent } from './components/bill/add-menu/add-menu.component';
-=======
 import { UpdateRoomComponent } from "./components/room/update-room/update-room.component";
 
->>>>>>> update-room
 
 @NgModule({
     declarations: [
@@ -32,11 +29,8 @@ import { UpdateRoomComponent } from "./components/room/update-room/update-room.c
         RoomComponent,
         AutocompleteComponent,
         MenuCardComponent,
-<<<<<<< HEAD
         AddMenuComponent,
-=======
         UpdateRoomComponent
->>>>>>> update-room
     ],
     imports: [
         CommonModule,
