@@ -20,6 +20,7 @@ import { UpdateRoomComponent } from "./components/room/update-room/update-room.c
 import { FilterPipe } from "./filter/filter.pipe";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FriendComponent } from "./components/room/friend/friend.component";
+import { ShowQrcodeComponent } from './components/room/show-qrcode/show-qrcode.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { FriendComponent } from "./components/room/friend/friend.component";
         UpdateRoomComponent,
         FilterPipe,
         SearchBarComponent,
-        FriendComponent
+        FriendComponent,
+        ShowQrcodeComponent
     ],
     imports: [
         CommonModule,
