@@ -1,6 +1,21 @@
 import Bill, { BillDocument, IMenuDocument } from "../models/bills.model";
 import User, { UserDocument } from "../models/users.model";
 
+export const findBillById = async (billId: string) => {
+    const bill = await Bill.findById(billId)
+        .populate("room")
+        .populate({
+            path: "menus.menu",
+            select: "-bills",
+        })
+        .populate({
+            path: "menus.payers",
+        });
+
+    if (!bill) return null;
+    return bill;
+};
+
 export const findMenuInBill = async (billId: string, menuId: string) => {
     const bill = await Bill.findById(billId);
     if (!bill) return null;

@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 import { UserDocument } from "./users.model";
 
-// Define the IMenuDocument interface
 export interface IMenuDocument extends Document {
     menu: Types.ObjectId;
     payers: Array<Types.ObjectId | UserDocument>;
@@ -17,36 +16,32 @@ export interface BillDocument extends Document {
     updatedAt: Date;
 }
 
-// Define the Menu schema
-const menuSchema = new Schema<IMenuDocument>({
-    menu: {
-        type: Schema.Types.ObjectId,
-        ref: "Menu", // Reference to the "Menu" model
-        required: true,
-    },
-    payers: [
-        {
-            type: Types.ObjectId,
-            ref: "User", // Reference to the "User" model
-        },
-    ],
-    slip: {
-        type: String,
-    },
-    price: {
-        type: Number,
-        required: true,
-    },
-    // You can set up a getter for the "amount" field to calculate it based on the number of payers
-    amount: {
-        type: Number,
-    },
-});
-
 // Create the billSchema
 const billSchema: Schema<BillDocument> = new mongoose.Schema(
     {
-        menus: [menuSchema],
+        menus: [
+            {
+                menu: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Menu", // Reference the "Menu" model
+                },
+                payers: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        ref: "User", // Reference the "User" model
+                    },
+                ],
+                slip: {
+                    type: String,
+                },
+                price: {
+                    type: Number,
+                },
+                amount: {
+                    type: Number,
+                },
+            },
+        ],
         totalPrice: {
             type: Number,
         },
