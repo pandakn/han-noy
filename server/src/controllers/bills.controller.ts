@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
-import Bill, { BillDocument, IMenu } from "../models/bills.model";
+import Bill, { BillDocument, IMenuDocument } from "../models/bills.model";
 import Menu, { MenuDocument } from "../models/menus.model";
 import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
@@ -15,7 +15,7 @@ export const addMenuIntoBill = async (req: Request, res: Response) => {
         let menuId: mongoose.Types.ObjectId;
         const menuLowerCase = menu.toLowerCase();
 
-        const bill: BillDocument | null = await Bill.findById({ _id: billId });
+        const bill: BillDocument | null = await Bill.findById(billId);
 
         if (!bill) {
             return res.status(404).json({ message: "Bill not found" });
@@ -73,7 +73,7 @@ export const addMenuIntoBill = async (req: Request, res: Response) => {
         const amountMenu = Math.ceil(price / usersInRoom.length);
 
         // Create the menu object
-        const menuObj: IMenu = {
+        const menuObj: any = {
             menu: menuId,
             payers: usersInRoom.map((user) => user._id),
             slip,
@@ -114,9 +114,7 @@ export const deleteMenuFromBill = async (req: Request, res: Response) => {
         }
 
         // Find the menu with the specified menuId in the bill's menus array
-        const menuToDelete = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
-        );
+        const menuToDelete = bill.menus.find((menu) => menu._id.equals(menuId));
 
         if (!menuToDelete) {
             return res.status(404).json({
@@ -125,16 +123,26 @@ export const deleteMenuFromBill = async (req: Request, res: Response) => {
         }
 
         // Remove the menu from the bill's menus array
-        bill.menus = bill.menus.filter((menu) => !menu.menu._id.equals(menuId));
+        bill.menus = bill.menus.filter((menu) => !menu._id.equals(menuId));
         bill.totalPrice -= menuToDelete.price;
 
+        const sameMenuLength = bill.menus.filter(
+            (menu) => !menu.menu._id.equals(menuToDelete._id)
+        );
+
+        console.log("sameMenuLength", sameMenuLength);
+
         // Remove the deleted menu's reference from the 'bills' field of the associated menu
-        const associatedMenu: MenuDocument | null = await Menu.findById(menuId);
-        if (associatedMenu) {
-            associatedMenu.bills = associatedMenu.bills.filter(
-                (billRef) => !billRef.equals(billId)
+        if (sameMenuLength.length <= 0) {
+            const associatedMenu: MenuDocument | null = await Menu.findById(
+                menuToDelete.menu._id
             );
-            await associatedMenu.save();
+            if (associatedMenu) {
+                associatedMenu.bills = associatedMenu.bills.filter(
+                    (billRef) => !billRef.equals(billId)
+                );
+                await associatedMenu.save();
+            }
         }
 
         // Remove the menu's amount from users in the room
@@ -187,7 +195,7 @@ export const addUserToPayers = async (req: Request, res: Response) => {
         }
 
         const menuToAddPayer = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
+            menu._id.equals(menuId)
         );
 
         if (!menuToAddPayer) {
@@ -253,7 +261,7 @@ export const removeUserFromPayers = async (req: Request, res: Response) => {
         }
 
         const menuToRemovePayer = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
+            menu._id.equals(menuId)
         );
 
         if (!menuToRemovePayer) {
