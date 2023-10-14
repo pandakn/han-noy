@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ShowRoomComponent } from '../show-room/show-room.component';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IRoom } from 'src/app/interfaces/room.interface';
+import { IUser } from 'src/app/interfaces/user.interface';
+import { RoomService } from 'src/app/services/room/room.service';
+
+type closeModal = {
+  close: "dialog";
+};
 
 @Component({
   selector: 'app-friend',
@@ -7,11 +14,34 @@ import { ShowRoomComponent } from '../show-room/show-room.component';
   styleUrls: ['./friend.component.css']
 })
 export class FriendComponent implements OnInit {
+  @ViewChild("myModal") modal!: ElementRef;
 
-  constructor(private id: ShowRoomComponent) {}
+  roomId: string | null = "";
+  room!: IUser[];
+
+  constructor(private roomService: RoomService,
+    private route: ActivatedRoute
+    ) {}
+
+  openModal() {
+    this.modal.nativeElement.showModal();
+}
+
+fetchRoomById(roomId: string | null) {
+  this.roomService.getRoomById(roomId as string).subscribe({
+      next: (room) => {
+          this.room = room.users;
+          console.log("room", this.room);
+      },
+  });
+}
+
+closeModal() {
+  this.modal.nativeElement.close();
+}
 
   ngOnInit(): void {
-      console.log(this.id)
+    this.roomId = this.route.snapshot.paramMap.get("id");
+    this.fetchRoomById(this.roomId)
   }
-
 }
