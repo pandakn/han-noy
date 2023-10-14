@@ -19,6 +19,7 @@ import { AddMenuComponent } from "./components/bill/add-menu/add-menu.component"
 import { UpdateRoomComponent } from "./components/room/update-room/update-room.component";
 import { FilterPipe } from "./filter/filter.pipe";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FriendComponent } from "./components/room/friend/friend.component";
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
         UpdateRoomComponent,
         FilterPipe,
         SearchBarComponent,
+        FriendComponent
     ],
     imports: [
         CommonModule,

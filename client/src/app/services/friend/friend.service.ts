@@ -3,9 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject, map } from "rxjs";
 import { environment } from "src/environments/environment.development";
 
-export interface Menu {
+export interface User {
     _id: string;
-    title: string;
+    name: string;
+    avatar: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -13,12 +14,12 @@ export interface Menu {
 @Injectable({
     providedIn: "root",
 })
-export class MenuService {
+export class FriendService {
     constructor(private http: HttpClient) {}
 
     apiUrl = environment.apiUrl;
 
-    menus: Menu[] = [];
+    friends: User[] = [];
 
     private _refreshRequired = new Subject<void>();
 
@@ -26,18 +27,18 @@ export class MenuService {
         return this._refreshRequired;
     }
 
-    getMenu(): Observable<Menu[]> {
-        return this.http.get(`${this.apiUrl}/menus`).pipe(
+    getUsers(): Observable<User[]> {
+        return this.http.get(`${this.apiUrl}/users`).pipe(
             map((response: any) => {
                 if (
                     response &&
                     response.result &&
                     Array.isArray(response.result)
                 ) {
-                    this.menus = response.result;
+                    this.friends = response.result;
                     // console.log(response.result);
 
-                    return this.menus;
+                    return this.friends;
                 } else {
                     console.error("Invalid response format:", response);
                     return []; // Return an empty array in case of an invalid response format
