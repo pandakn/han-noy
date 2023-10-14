@@ -1,7 +1,7 @@
 <div>
     <!-- back button -->
-    <div>
-      <button class="mx-2 bg-[#E3B7A0] shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all" [routerLink]="'/'">
+    <div class="flex items-center justify-between mb-3 mx-2 text-[#684123]">
+      <button class="bg-[#E3B7A0] py-1 px-1 shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all" [routerLink]="'/'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -17,6 +17,7 @@
           />
         </svg>
       </button>
+      <app-show-qrcode></app-show-qrcode>
     </div>
     
     <div class="bg-[#ffead4c0]">
@@ -71,7 +72,7 @@
       </div>
 
       <!-- Bill -->
-      <div class="h-[75vh] max-h-full overflow-y-auto hider ">   
+      <div class="h-[72vh] max-h-full overflow-y-auto hider ">   
         <div *ngFor="let menu of menusInBill">
           <app-menu-card
               [title]="menu.menu.title"
