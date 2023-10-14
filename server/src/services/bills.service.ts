@@ -1,5 +1,20 @@
-import Bill, { BillDocument, IMenu } from "../models/bills.model";
+import Bill, { BillDocument, IMenuDocument } from "../models/bills.model";
 import User, { UserDocument } from "../models/users.model";
+
+export const findBillById = async (billId: string) => {
+    const bill = await Bill.findById(billId)
+        .populate("room")
+        .populate({
+            path: "menus.menu",
+            select: "-bills",
+        })
+        .populate({
+            path: "menus.payers",
+        });
+
+    if (!bill) return null;
+    return bill;
+};
 
 export const findMenuInBill = async (billId: string, menuId: string) => {
     const bill = await Bill.findById(billId);
@@ -7,7 +22,7 @@ export const findMenuInBill = async (billId: string, menuId: string) => {
     return bill.menus.find((menu) => menu.menu._id.equals(menuId)) || null;
 };
 
-export const findPayer = async (menu: IMenu) => {
+export const findPayer = async (menu: IMenuDocument) => {
     const payers = await User.find({
         _id: { $in: menu.payers },
     });

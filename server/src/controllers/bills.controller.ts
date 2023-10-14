@@ -1,11 +1,31 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
-import Bill, { BillDocument, IMenu } from "../models/bills.model";
+import Bill, { BillDocument } from "../models/bills.model";
 import Menu, { MenuDocument } from "../models/menus.model";
 import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
-import { findPayer, updateUserAmount } from "../services/bills.service";
+import {
+    findBillById,
+    findPayer,
+    updateUserAmount,
+} from "../services/bills.service";
+
+export const getBillById = async (req: Request, res: Response) => {
+    try {
+        const { billId } = req.params;
+        const bill = await findBillById(billId);
+
+        if (!bill) {
+            return res.status(404).json({ message: "bill not found" });
+        }
+
+        res.status(200).json({ result: bill });
+    } catch (error) {
+        console.error("Error getting bill by ID:", error);
+        res.status(500).json({ message: "Error getting bill by ID" });
+    }
+};
 
 export const addMenuIntoBill = async (req: Request, res: Response) => {
     try {
@@ -15,7 +35,7 @@ export const addMenuIntoBill = async (req: Request, res: Response) => {
         let menuId: mongoose.Types.ObjectId;
         const menuLowerCase = menu.toLowerCase();
 
-        const bill: BillDocument | null = await Bill.findById({ _id: billId });
+        const bill: BillDocument | null = await Bill.findById(billId);
 
         if (!bill) {
             return res.status(404).json({ message: "Bill not found" });
@@ -73,7 +93,7 @@ export const addMenuIntoBill = async (req: Request, res: Response) => {
         const amountMenu = Math.ceil(price / usersInRoom.length);
 
         // Create the menu object
-        const menuObj: IMenu = {
+        const menuObj: any = {
             menu: menuId,
             payers: usersInRoom.map((user) => user._id),
             slip,
@@ -114,9 +134,7 @@ export const deleteMenuFromBill = async (req: Request, res: Response) => {
         }
 
         // Find the menu with the specified menuId in the bill's menus array
-        const menuToDelete = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
-        );
+        const menuToDelete = bill.menus.find((menu) => menu._id.equals(menuId));
 
         if (!menuToDelete) {
             return res.status(404).json({
@@ -125,16 +143,26 @@ export const deleteMenuFromBill = async (req: Request, res: Response) => {
         }
 
         // Remove the menu from the bill's menus array
-        bill.menus = bill.menus.filter((menu) => !menu.menu._id.equals(menuId));
+        bill.menus = bill.menus.filter((menu) => !menu._id.equals(menuId));
         bill.totalPrice -= menuToDelete.price;
 
+        const sameMenuLength = bill.menus.filter(
+            (menu) => !menu._id.equals(menuToDelete._id)
+        );
+
+        console.log("sameMenuLength", sameMenuLength);
+
         // Remove the deleted menu's reference from the 'bills' field of the associated menu
-        const associatedMenu: MenuDocument | null = await Menu.findById(menuId);
-        if (associatedMenu) {
-            associatedMenu.bills = associatedMenu.bills.filter(
-                (billRef) => !billRef.equals(billId)
+        if (sameMenuLength.length <= 0) {
+            const associatedMenu: MenuDocument | null = await Menu.findById(
+                menuToDelete.menu._id
             );
-            await associatedMenu.save();
+            if (associatedMenu) {
+                associatedMenu.bills = associatedMenu.bills.filter(
+                    (billRef) => !billRef.equals(billId)
+                );
+                await associatedMenu.save();
+            }
         }
 
         // Remove the menu's amount from users in the room
@@ -175,10 +203,78 @@ export const deleteMenuFromBill = async (req: Request, res: Response) => {
     }
 };
 
-export const addUserToPayers = async (req: Request, res: Response) => {
+// export const addUserToPayers = async (req: Request, res: Response) => {
+//     try {
+//         const { billId, menuId } = req.params;
+//         const { userId } = req.body;
+
+//         const bill: BillDocument | null = await Bill.findById(billId);
+
+//         if (!bill) {
+//             return res.status(404).json({ message: "Bill not found" });
+//         }
+
+//         const menuToAddPayer = bill.menus.find((menu) =>
+//             menu._id.equals(menuId)
+//         );
+
+//         if (!menuToAddPayer) {
+//             return res.status(404).json({ message: "Menu in bill not found" });
+//         }
+
+//         const user: UserDocument | null = await User.findById(userId);
+
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         if (menuToAddPayer.payers.includes(userId)) {
+//             return res
+//                 .status(400)
+//                 .json({ message: "User is already in the list of payers" });
+//         }
+
+//         const payers = await findPayer(menuToAddPayer);
+
+//         // Calculate the new amountMenu
+//         const amountMenuOld = menuToAddPayer.amount;
+//         const amountMenuNew = Math.ceil(
+//             menuToAddPayer.price / (payers.length + 1)
+//         );
+
+//         // Add the new payer to the menu
+//         menuToAddPayer.payers.push(user._id);
+//         menuToAddPayer.amount = amountMenuNew;
+
+//         for (const payer of payers) {
+//             updateUserAmount(payer, bill, amountMenuNew - amountMenuOld);
+//         }
+
+//         updateUserAmount(user, bill, amountMenuNew);
+
+//         // Save the updated users and bill
+//         await Promise.all([
+//             user.save(),
+//             ...payers.map((payer) => payer.save()),
+//             bill.save(),
+//         ]);
+
+//         res.status(200).json({
+//             message: "User added to the list of payers",
+//             bill,
+//         });
+//     } catch (error) {
+//         console.error("Error adding user to payers:", error);
+//         res.status(500).json({ message: "Error adding user to payers" });
+//     }
+// };
+
+export const addUsersToPayers = async (req: Request, res: Response) => {
     try {
         const { billId, menuId } = req.params;
-        const { userId } = req.body;
+        const { userIds } = req.body; // Expect an array of user IDs
+
+        console.log("users id:", req.body);
 
         const bill: BillDocument | null = await Bill.findById(billId);
 
@@ -187,23 +283,32 @@ export const addUserToPayers = async (req: Request, res: Response) => {
         }
 
         const menuToAddPayer = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
+            menu._id.equals(menuId)
         );
 
         if (!menuToAddPayer) {
             return res.status(404).json({ message: "Menu in bill not found" });
         }
 
-        const user: UserDocument | null = await User.findById(userId);
+        // Fetch all user documents using user IDs
+        const users = await User.find({ _id: { $in: userIds } });
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        if (menuToAddPayer.payers.includes(userId)) {
+        if (users.length !== userIds.length) {
             return res
                 .status(400)
-                .json({ message: "User is already in the list of payers" });
+                .json({ message: "One or more users not found" });
+        }
+
+        // Check if any of the selected users are already in the list of payers
+        const existingPayers = menuToAddPayer.payers.filter((payerId) =>
+            userIds.includes(payerId.toString())
+        );
+
+        if (existingPayers.length > 0) {
+            return res.status(400).json({
+                message: "One or more users are already in the list of payers",
+                existingPayers,
+            });
         }
 
         const payers = await findPayer(menuToAddPayer);
@@ -211,33 +316,35 @@ export const addUserToPayers = async (req: Request, res: Response) => {
         // Calculate the new amountMenu
         const amountMenuOld = menuToAddPayer.amount;
         const amountMenuNew = Math.ceil(
-            menuToAddPayer.price / (payers.length + 1)
+            menuToAddPayer.price / (payers.length + userIds.length)
         );
 
-        // Add the new payer to the menu
-        menuToAddPayer.payers.push(user._id);
+        // Add the new payers to the menu
+        menuToAddPayer.payers.push(...userIds);
         menuToAddPayer.amount = amountMenuNew;
 
         for (const payer of payers) {
             updateUserAmount(payer, bill, amountMenuNew - amountMenuOld);
         }
 
-        updateUserAmount(user, bill, amountMenuNew);
+        for (const user of users) {
+            updateUserAmount(user, bill, amountMenuNew);
+        }
 
         // Save the updated users and bill
         await Promise.all([
-            user.save(),
+            ...users.map((user) => user.save()),
             ...payers.map((payer) => payer.save()),
             bill.save(),
         ]);
 
         res.status(200).json({
-            message: "User added to the list of payers",
+            message: "Users added to the list of payers",
             bill,
         });
     } catch (error) {
-        console.error("Error adding user to payers:", error);
-        res.status(500).json({ message: "Error adding user to payers" });
+        console.error("Error adding users to payers:", error);
+        res.status(500).json({ message: "Error adding users to payers" });
     }
 };
 
@@ -246,6 +353,10 @@ export const removeUserFromPayers = async (req: Request, res: Response) => {
         const { billId, menuId } = req.params;
         const { userId } = req.body;
 
+        console.log("body", req.body);
+
+        console.log("userId:", userId);
+
         const bill: BillDocument | null = await Bill.findById(billId);
 
         if (!bill) {
@@ -253,7 +364,7 @@ export const removeUserFromPayers = async (req: Request, res: Response) => {
         }
 
         const menuToRemovePayer = bill.menus.find((menu) =>
-            menu.menu._id.equals(menuId)
+            menu._id.equals(menuId)
         );
 
         if (!menuToRemovePayer) {
