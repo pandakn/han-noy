@@ -1,0 +1,18 @@
+<button class="bg-[#E3B7A0] shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all px-2 py-1"
+(click)="openModal()">
+    ดูคิวอาร์โค้ด
+</button>
+
+<!-- Modal -->
+<dialog #myModal class="modal">
+    <div class="modal-box">
+        <div class="mb-3 flex items-center justify-center">
+            <img [src]="room.qrCode" [alt]="room.qrCode">
+        </div>
+        <h1 class="text-xl text-center mb-5">{{promtpay}}</h1>
+        <div class="flex justify-center items-center mt-2">
+            <button class="text-center bg-[#E3B7A0] py-2 w-full rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123]"
+            (click)="closeModal()">ปิด</button>
+        </div>
+    </div>
+</dialog>
