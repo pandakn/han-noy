@@ -18,7 +18,8 @@ import { MenuCardComponent } from "./components/room/menu-card/menu-card.compone
 import { AddMenuComponent } from "./components/bill/add-menu/add-menu.component";
 import { UpdateRoomComponent } from "./components/room/update-room/update-room.component";
 import { FilterPipe } from "./filter/filter.pipe";
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchBarComponent } from "./components/search-bar/search-bar.component";
+import { UpdatePayerComponent } from './components/bill/update-payer/update-payer.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
         UpdateRoomComponent,
         FilterPipe,
         SearchBarComponent,
+        UpdatePayerComponent,
     ],
     imports: [
         CommonModule,

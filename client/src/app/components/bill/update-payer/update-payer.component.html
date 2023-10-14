@@ -1,0 +1,98 @@
+<dialog
+    #updatePayerModal
+    class="modal cursor-default"
+    aria-label="Update Payer"
+>
+    <div class="modal-box">
+        <section class="dark:bg-gray-800 dark:text-gray-50">
+            <div class="flex justify-end w-full">
+                <button (click)="closeModal()">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-red-500 w-8 h-8 hover:text-red-300"
+                        aria-hidden="true"
+                    >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col items-center gap-y-2">
+                <h1 class="text-3xl font-bold">{{ title }}</h1>
+                <p class="text-2xl italic">{{ price }}฿</p>
+            </div>
+            <!-- form -->
+            <form [formGroup]="updatePayerForm" class="flex flex-col space-y-5">
+                <!-- payers -->
+                <label class="block">
+                    <span class="text-xl text-gray-400 italic">คนจ่าย</span>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <div *ngFor="let payer of payers" class="relative">
+                            <div
+                                (click)="onRemovePayer(payer._id)"
+                                class="absolute bg-red-500 -right-2 -top-1 rounded-full hover:cursor-pointer hover:bg-white"
+                                aria-label="Remove Payer"
+                                tabindex="0"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="text-white hover:text-red-500"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M18 6 6 18" />
+                                    <path d="m6 6 12 12" />
+                                </svg>
+                            </div>
+                            <img [src]="payer.avatar" [alt]="payer.name" />
+                            <div class="mx-1 text-sm text-[#cb7b3f]">
+                                {{ payer.name }}
+                            </div>
+                        </div>
+                    </div>
+                </label>
+                <hr />
+                <!-- users in room -->
+                <label class="block">
+                    <div class="w-full flex gap-2 flex-wrap">
+                        <p
+                            *ngFor="let user of usersInRoom"
+                            (click)="onChoosePayer(user._id)"
+                            [class.selected]="isSelected(user._id)"
+                            class="border px-4 py-2 rounded-lg hover:cursor-pointer"
+                        >
+                            {{ user.name }}
+                        </p>
+                    </div>
+                </label>
+            </form>
+        </section>
+
+        <!-- button -->
+        <div class="modal-action">
+            <button
+                [disabled]="usersInRoom.length <= 0"
+                class="btn selected disabled:opacity-50"
+                (click)="onAddPayer()"
+            >
+                Add
+            </button>
+        </div>
+    </div>
+</dialog>

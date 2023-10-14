@@ -1,6 +1,7 @@
 import { IUser } from "./user.interface";
 
 export interface IMenu {
+    _id: string;
     menu: {
         _id: string;
         title: string;

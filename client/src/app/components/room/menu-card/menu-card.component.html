@@ -1,17 +1,33 @@
-<div class="mb-5">
-    <div class="grid grid-cols-[80%10%10%] mx-2 text-sm text-center items-center text-[#8F6D52] mb-1">
-        <div class="text-start text-2xl px-2 text-[#684123]">{{ title }}</div>
-        <div>{{ price }}</div>
-        <div>{{ amount }}</div>
-    </div>
-    <div class="flex gap-x-1 items-center mx-5 mb-5">
-        <!-- <div *ngIf="!!slip">
-            <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
-        </div> -->
-        <div *ngFor="let payer of payers">
-            <img [src]="payer.avatar" [alt]="payer.name" />
-            <div class="mx-1 text-sm text-[#cb7b3f]">{{ payer.name }}</div>
+<div class="mb-5 hover:cursor-pointer hover:opacity-70">
+    <div (click)="openModal()">
+        <div
+            class="grid grid-cols-[80%10%10%] mx-2 text-sm text-center items-center text-[#8F6D52] mb-1"
+        >
+            <div class="text-start text-2xl px-2 text-[#684123]">
+                {{ title }}
+            </div>
+            <div>{{ price }}</div>
+            <div>{{ amount }}</div>
+        </div>
+        <div class="flex gap-x-1 items-center mx-5 mb-5">
+            <!-- <div *ngIf="!!slip">
+                <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
+            </div> -->
+            <div *ngFor="let payer of payers">
+                <img [src]="payer.avatar" [alt]="payer.name" />
+                <div class="mx-1 text-sm text-[#cb7b3f]">{{ payer.name }}</div>
+            </div>
         </div>
     </div>
+    <app-update-payer
+        [billId]="billId"
+        [menuInBillId]="id"
+        [title]="title"
+        [price]="price"
+        [payers]="payers"
+        [amount]="amount"
+        [slip]="slip"
+        [usersInRoom]="usersInRoom"
+    ></app-update-payer>
     <div class="border-dashed border-b-[1.3px] border-[#684123]"></div>
 </div>
