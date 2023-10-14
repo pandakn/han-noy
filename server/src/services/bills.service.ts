@@ -1,4 +1,4 @@
-import Bill, { BillDocument, IMenu } from "../models/bills.model";
+import Bill, { BillDocument, IMenuDocument } from "../models/bills.model";
 import User, { UserDocument } from "../models/users.model";
 
 export const findMenuInBill = async (billId: string, menuId: string) => {
@@ -7,7 +7,7 @@ export const findMenuInBill = async (billId: string, menuId: string) => {
     return bill.menus.find((menu) => menu.menu._id.equals(menuId)) || null;
 };
 
-export const findPayer = async (menu: IMenu) => {
+export const findPayer = async (menu: IMenuDocument) => {
     const payers = await User.find({
         _id: { $in: menu.payers },
     });
