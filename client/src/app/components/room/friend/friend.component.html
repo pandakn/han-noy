@@ -1,4 +1,4 @@
-<button
+<!-- <button
     class="flex gap-x-2 items-center text-xl cursor-pointer text-[#684123] hover:bg-[#BF9270] hover:px-2 hover:py-2 hover:rounded-md"
     (click)="openModal()"
 >
@@ -18,10 +18,10 @@
         />
     </svg>
     เพื่อน
-</button>
+</button> -->
 
 <!-- modal -->
-<dialog #myModal class="modal">
+<!-- <dialog #myModal class="modal">
     <div class="modal-box">
         <div
             class="grid grid-cols-[80%20%] lg:grid-cols-[85%15%] items-center gap-x-2"
@@ -34,16 +34,31 @@
             </button>
         </div>
         <div class="mb-5">
-            <div class="flex gap-x-1 items-center mt-5 mb-5">
+            <div class="flex flex-wrap gap-2 items-center mt-5 mb-5">
                 <div *ngFor="let payer of room">
-                    <div class="flex">
-                        <img [src]="payer.avatar" [alt]="payer.name" />
+                    <div class="relative">
                         <div
-                            class="text-red-600 text-2xl top pl-8 absolute rounded-full cursor-pointer"
+                        class="bg-red-500 -top-1 -right-2 absolute rounded-full cursor-pointer hover:bg-white"
                         >
-                            x
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="text-white hover:text-red-500"
+                            aria-hidden="true"
+                        >
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
                         </div>
                     </div>
+                    <img [src]="payer.avatar" [alt]="payer.name" />
                     <div class="text-center text-sm text-[#cb7b3f]">
                         {{ payer.name }}
                     </div>
@@ -59,4 +74,66 @@
             </button>
         </div>
     </div>
-</dialog>
+</dialog> -->
+
+<div>
+    <div
+        class="grid grid-cols-[75%25%] lg:grid-cols-[85%15%] items-center gap-x-2 pt-[24px] mx-2"
+    >
+        <app-autocomplete></app-autocomplete>
+        <button
+            class="text-center mr-2 bg-[#E3B7A0] py-2 rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123] text-xs"
+        >
+            เพิ่มเพื่อน
+        </button>
+    </div>
+    
+    <div class="mb-5 mx-3">
+        <div class="flex flex-wrap gap-2 items-center mt-5 mb-5">
+            <div *ngFor="let payer of room">
+                <div class="relative">
+                    <div
+                    class="bg-red-500 -top-1 -right-2 absolute rounded-full cursor-pointer hover:bg-white"
+                    >
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-white hover:text-red-500"
+                        aria-hidden="true"
+                    >
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </div>
+                </div>
+                <img [src]="payer.avatar" [alt]="payer.name" />
+                <div class="text-center text-sm text-[#cb7b3f]">
+                    {{ payer.name }}
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <div class="border-dashed border-b-2 border-[#684123] mb-4"></div>
+    
+    <div class="h-[62vh] max-h-full overflow-y-auto hider">
+        <div class="text-[#684123] lg:grid lg:grid-cols-2 lg:gap-x-5 lg:items-center">
+            <div class="grid grid-cols-2 items-center justify-between mx-2 mb-2">
+                <h1 class="text-xl">เหมียว</h1>
+                <h3 class="text-end mt-1">30 บาท</h3>
+            </div>
+            <div class="grid grid-cols-2 items-center justify-between mx-2 mb-2">
+                <h1 class="text-xl">เหมียว</h1>
+                <h3 class="text-end mt-1">30 บาท</h3>
+            </div>
+        </div>
+    </div>
+</div>

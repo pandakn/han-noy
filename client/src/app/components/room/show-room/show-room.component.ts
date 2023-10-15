@@ -16,6 +16,7 @@ export class ShowRoomComponent {
     roomId: string | null = "";
     room!: IRoom;
     billId!: string;
+    switchComponent: boolean = true
 
     keyword = "title";
     menus!: Menu[];
@@ -69,5 +70,14 @@ export class ShowRoomComponent {
     setIsShowAddMenuModal() {
         this.isShowAddMenuModal = true;
         console.log("isShowAddMenuModal");
+    }
+
+    onSwitchMenu() {
+        this.switchComponent = true;
+        console.log(this.switchComponent)
+    }
+    onSwitchFriend() {
+        this.switchComponent = false;
+        console.log(this.switchComponent)
     }
 }

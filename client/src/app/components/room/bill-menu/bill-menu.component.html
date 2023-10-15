@@ -1,0 +1,45 @@
+<!-- input and add menu -->
+<div class="">
+    <div
+        class="grid grid-cols-[80%10%] lg:grid-cols-[89%10%] py-[24px] items-center gap-x-5 mx-2"
+    >
+        <app-autocomplete
+            [data]="menus"
+            [keyword]="keyword"
+            (selectedMenuEvent)="receiveSelectedMenu($event)"
+            class="{`bg-black`}"
+        ></app-autocomplete>
+
+        <app-add-menu
+            [selectedMenu]="selectedMenu"
+            [billId]="room.bill._id"
+            [usersInRoom]="room.users"
+            [isDisable]="!!selectedMenu"
+        ></app-add-menu>
+    </div>
+
+    <!-- bar detail -->
+    <div
+        class="grid grid-cols-[80%10%10%] mx-2 text-sm text-center items-center text-[#B18B6D]"
+    >
+        <div class="text-xl text-start text-[#8F6D52] px-2">ชื่อรายการ</div>
+        <div>ราคา</div>
+        <div>คนละ</div>
+    </div>
+
+    <!-- Bill -->
+    <div class="h-[72vh] max-h-full overflow-y-auto hider">
+        <div *ngFor="let menu of menusInBill">
+            <app-menu-card
+                [id]="menu._id"
+                [billId]="billId"
+                [title]="menu.menu.title"
+                [price]="menu.price"
+                [amount]="menu.amount"
+                [payers]="menu.payers"
+                [slip]="menu.slip"
+                [usersInRoom]="usersInRoom"
+            ></app-menu-card>
+        </div>
+    </div>
+</div>

@@ -3,10 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { IRoom } from 'src/app/interfaces/room.interface';
 import { IUser } from 'src/app/interfaces/user.interface';
 import { RoomService } from 'src/app/services/room/room.service';
-
-type closeModal = {
-  close: "dialog";
-};
+import { IMenu } from "src/app/interfaces/bill.interface";
+import { Menu } from '../../../services/menu/menu.service';
 
 @Component({
   selector: 'app-friend',
@@ -19,29 +17,40 @@ export class FriendComponent implements OnInit {
   roomId: string | null = "";
   room!: IUser[];
 
-  constructor(private roomService: RoomService,
-    private route: ActivatedRoute
-    ) {}
+  keyword = "title";
+  menus!: Menu[];
+  menusInBill!: IMenu[];
+  selectedMenu!: string;
+  usersInRoom!: IUser[];
+
+  constructor(
+    private route: ActivatedRoute,
+    private roomService: RoomService,
+  ) {}
+  
+  receiveSelectedMenu(value: string) {
+    this.selectedMenu = value;
+  }
 
   openModal() {
     this.modal.nativeElement.showModal();
-}
+  }
 
-fetchRoomById(roomId: string | null) {
-  this.roomService.getRoomById(roomId as string).subscribe({
-      next: (room) => {
-          this.room = room.users;
-          console.log("room", this.room);
-      },
-  });
-}
+  fetchRoomById(roomId: string | null) {
+    this.roomService.getRoomById(roomId as string).subscribe({
+        next: (room) => {
+            this.room = room.users;
+            console.log("room", this.room);
+        },
+    });
+  }
 
-closeModal() {
-  this.modal.nativeElement.close();
-}
+  closeModal() {
+    this.modal.nativeElement.close();
+  }
 
   ngOnInit(): void {
-    this.roomId = this.route.snapshot.paramMap.get("id");
-    this.fetchRoomById(this.roomId)
+      this.roomId = this.route.snapshot.paramMap.get("id");
+      this.fetchRoomById(this.roomId)
   }
 }

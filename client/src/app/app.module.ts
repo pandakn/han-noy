@@ -22,6 +22,7 @@ import { SearchBarComponent } from "./components/search-bar/search-bar.component
 import { FriendComponent } from "./components/room/friend/friend.component";
 import { ShowQrcodeComponent } from "./components/room/show-qrcode/show-qrcode.component";
 import { UpdatePayerComponent } from "./components/bill/update-payer/update-payer.component";
+import { BillMenuComponent } from './components/room/bill-menu/bill-menu.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { UpdatePayerComponent } from "./components/bill/update-payer/update-paye
         FriendComponent,
         ShowQrcodeComponent,
         UpdatePayerComponent,
+        BillMenuComponent,
     ],
     imports: [
         CommonModule,
