@@ -2,7 +2,7 @@
     <ng-autocomplete
         [data]="data"
         [searchKeyword]="keyword"
-        placeholder="Select menu..."
+        [placeholder]="placeholder"
         (selected)="selectEvent($event)"
         (inputChanged)="onChangeSearch($event)"
         [itemTemplate]="itemTemplate"
@@ -10,6 +10,6 @@
     </ng-autocomplete>
 
     <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item.title"></a>
+        <a [innerHTML]="item[keyword]"></a>
     </ng-template>
 </div>
