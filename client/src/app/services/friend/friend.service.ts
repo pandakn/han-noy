@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject, map } from "rxjs";
+import { Observable, Subject, map, tap } from "rxjs";
 import { environment } from "src/environments/environment.development";
 
 export interface User {
@@ -45,5 +45,23 @@ export class FriendService {
                 }
             })
         );
+    }
+
+    addUserIntoRoom(roomId: string, data: any) {
+        return this.http.post(`${this.apiUrl}/rooms/${roomId}/user`, data).pipe(
+            tap(() => {
+                this.refreshRequired.next();
+            })
+        );
+    }
+
+    removeUserFromRoom(roomId: string, userId: string) {
+        return this.http
+            .delete(`${this.apiUrl}/rooms/${roomId}/user/${userId}`)
+            .pipe(
+                tap(() => {
+                    this.refreshRequired.next();
+                })
+            );
     }
 }

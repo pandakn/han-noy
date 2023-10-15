@@ -7,23 +7,23 @@ import { Menu } from "src/app/services/menu/menu.service";
     styleUrls: ["./autocomplete.component.css"],
 })
 export class AutocompleteComponent {
-    @Input() data!: Menu[];
+    @Input() data: any = [];
     @Input() keyword!: string;
+    @Input() placeholder!: string;
 
-    selectedMenu!: string;
+    selectedValue!: string;
 
     constructor() {}
 
-    @Output() selectedMenuEvent = new EventEmitter<string>();
+    @Output() selectedValueEvent = new EventEmitter<string>();
 
-    selectEvent(item: Menu) {
-        this.selectedMenu = item.title;
-        this.selectedMenuEvent.emit(this.selectedMenu);
+    selectEvent(item: any) {
+        this.selectedValue = item[this.keyword];
+        this.selectedValueEvent.emit(this.selectedValue);
     }
 
     onChangeSearch(val: string) {
-        this.selectedMenu = val;
-        this.selectedMenuEvent.emit(this.selectedMenu);
-        // console.log("selected:", this.selectedVal);
+        this.selectedValue = val;
+        this.selectedValueEvent.emit(this.selectedValue);
     }
 }

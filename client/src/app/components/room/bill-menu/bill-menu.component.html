@@ -6,8 +6,8 @@
         <app-autocomplete
             [data]="menus"
             [keyword]="keyword"
-            (selectedMenuEvent)="receiveSelectedMenu($event)"
-            class="{`bg-black`}"
+            placeholder="Select menu..."
+            (selectedValueEvent)="receiveSelectedMenu($event)"
         ></app-autocomplete>
 
         <app-add-menu

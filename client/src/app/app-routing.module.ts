@@ -6,8 +6,15 @@ import { FriendComponent } from "./components/room/friend/friend.component";
 
 const routes: Routes = [
     { path: "", component: HomeComponent },
-    { path: "room/:id", component: ShowRoomComponent },
-    { path: "friend", component: FriendComponent}
+    {
+        path: "room/:id",
+        component: ShowRoomComponent,
+        // children: [
+        //     { path: "friend", component: FriendComponent },
+        //     // Add more child routes for the ShowRoomComponent if needed
+        // ],
+    },
+    { path: "room/:id/friend", component: FriendComponent },
 ];
 
 @NgModule({
