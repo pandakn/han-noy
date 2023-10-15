@@ -1,9 +1,10 @@
-import { PopulateOptions, Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import Menu, { MenuDocument } from "../models/menus.model";
 import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
 import { generateAvatar } from "../utils/avatar";
 
+// find room by id function
 export const findRoomById = async (
     roomId: string
 ): Promise<RoomDocument | null> => {
@@ -11,20 +12,19 @@ export const findRoomById = async (
         const room = await Room.findOne({ _id: roomId })
             .populate({
                 path: "users",
-                select: "-rooms.roomId", // Exclude the roomId field
+            })
+            .populate({
+                path: "bill",
+                select: "-room",
+                populate: {
+                    path: "menus.payers",
+                },
             })
             .populate({
                 path: "bill",
                 populate: {
                     path: "menus.menu",
                     select: "title",
-                },
-            })
-            .populate({
-                path: "bill",
-                select: "-room", // Exclude the room field
-                populate: {
-                    path: "menus.payers",
                 },
             });
 
@@ -40,7 +40,6 @@ export async function findAllRooms(): Promise<RoomDocument[]> {
         const rooms: RoomDocument[] = await Room.find()
             .populate({
                 path: "users",
-                select: "-rooms.roomId", // Exclude the roomId field
             })
             .populate({
                 path: "bill",
