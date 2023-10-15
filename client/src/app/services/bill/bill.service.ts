@@ -61,4 +61,14 @@ export class BillService {
                 })
             );
     }
+
+    removeMenuFromBill(billId: string, menuId: string) {
+        return this.http
+            .delete(`${this.apiUrl}/bills/${billId}/menu/${menuId}`)
+            .pipe(
+                tap(() => {
+                    this.refreshRequired.next();
+                })
+            );
+    }
 }

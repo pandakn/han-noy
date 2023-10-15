@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { IUser } from "src/app/interfaces/user.interface";
 import { environment } from "src/environments/environment.development";
 import { UpdatePayerComponent } from "../../bill/update-payer/update-payer.component";
+import { BillService } from "src/app/services/bill/bill.service";
 
 @Component({
     selector: "app-menu-card",
@@ -23,9 +24,17 @@ export class MenuCardComponent {
 
     imageUrl = environment.apiUrlImage;
 
-    constructor() {}
+    constructor(private billService: BillService) {}
 
     openModal() {
         this.updatePayerComponent.openModal();
+    }
+
+    onRemoveMenuFromBill() {
+        console.log("menu id:", this.id);
+
+        this.billService.removeMenuFromBill(this.billId, this.id).subscribe({
+            next: () => {},
+        });
     }
 }
