@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { IUser } from "src/app/interfaces/user.interface";
 import { BillService } from "src/app/services/bill/bill.service";
+import { priceWithCommas } from "src/app/utils/formatPrice";
 import { environment } from "src/environments/environment.development";
 
 @Component({
@@ -18,6 +19,8 @@ export class UpdatePayerComponent implements OnInit {
     @Input() amount: number = 0;
     @Input() slip!: string;
     @Input() usersInRoom!: IUser[];
+
+    formatPrice = "";
 
     @ViewChild("updatePayerModal") modal!: ElementRef;
     @ViewChild("myModal") modal1!: ElementRef;
@@ -40,6 +43,8 @@ export class UpdatePayerComponent implements OnInit {
         this.usersInRoom = this.usersInRoom.filter(
             (user) => !this.payers.some((payer) => payer._id === user._id)
         );
+
+        this.formatPrice = priceWithCommas(this.price.toString());
     }
 
     openModal() {
@@ -57,7 +62,7 @@ export class UpdatePayerComponent implements OnInit {
     closeModal1() {
         this.modal1.nativeElement.close();
     }
-    
+
     onChoosePayer(id: string) {
         const payerIdsArray = this.updatePayerForm.get("payerIds") as FormArray;
 

@@ -60,7 +60,7 @@
                 รายการ
             </ng-template>
             <!-- !! Content here -->
-            <div class="grid grid-cols-5 p-4 gap-3 items-center">
+            <!-- <div class="grid grid-cols-5 p-4 gap-3 items-center">
                 <app-autocomplete
                     [data]="menus"
                     [keyword]="keyword"
@@ -76,9 +76,9 @@
                     [isDisable]="!!selectedMenu"
                     class="grid col-span-1 items-center"
                 ></app-add-menu>
-            </div>
+            </div> -->
 
-            <div
+            <!-- <div
                 class="grid grid-cols-[70%10%20%] mx-2 my-4 text-sm text-center items-center text-[#8F6D52]"
             >
                 <div class="text-start text-2xl px-2 text-[#684123]">
@@ -86,10 +86,10 @@
                 </div>
                 <div>ราคา</div>
                 <div>คนละ</div>
-            </div>
+            </div> -->
 
             <!-- Bill -->
-            <div class="h-[60vh] max-h-full overflow-y-auto hider">
+            <!-- <div class="h-[50vh] max-h-full overflow-y-auto hider">
                 <div *ngFor="let menu of menusInBill">
                     <app-menu-card
                         [id]="menu._id"
@@ -102,11 +102,12 @@
                         [usersInRoom]="usersInRoom"
                     ></app-menu-card>
                 </div>
-            </div>
+            </div> -->
+            <app-bill-menu></app-bill-menu>
         </mat-tab>
 
         <!-- Friend -->
-        <mat-tab>
+        <mat-tab> 
             <ng-template mat-tab-label>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
