@@ -46,7 +46,7 @@ export class BillMenuComponent {
             next: (room) => {
                 this.room = room;
                 // this.data = room.bill.menus;
-                console.log("room", this.room);
+                // console.log("room", this.room);
                 this.menusInBill = this.room.bill.menus;
                 this.billId = this.room.bill._id;
                 this.usersInRoom = this.room.users;

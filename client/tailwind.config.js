@@ -8,6 +8,10 @@ module.exports = {
             },
         },
     },
+    daisyui: {
+        themes: ["light", "dark", "cupcake"],
+    },
+
     plugins: [require("daisyui")],
     themes: ["light", "lofi", "dark", "cupcake"],
 };

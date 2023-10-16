@@ -63,7 +63,11 @@ export class RoomService {
     }
 
     deleteRoomById(roomId: string) {
-        return this.http.delete(`${this.apiUrl}/rooms/${roomId}`);
+        return this.http.delete(`${this.apiUrl}/rooms/${roomId}`).pipe(
+            tap(() => {
+                this.refreshRequired.next();
+            })
+        );
     }
 
     updateRoomById(data: RoomPayload, roomId: string): Observable<any> {

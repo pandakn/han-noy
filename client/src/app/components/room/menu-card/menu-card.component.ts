@@ -3,6 +3,7 @@ import { IUser } from "src/app/interfaces/user.interface";
 import { environment } from "src/environments/environment.development";
 import { UpdatePayerComponent } from "../../bill/update-payer/update-payer.component";
 import { BillService } from "src/app/services/bill/bill.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: "app-menu-card",
@@ -24,7 +25,10 @@ export class MenuCardComponent {
 
     imageUrl = environment.apiUrlImage;
 
-    constructor(private billService: BillService) {}
+    constructor(
+        private billService: BillService,
+        private toastr: ToastrService
+    ) {}
 
     openModal() {
         this.updatePayerComponent.openModal();
@@ -34,7 +38,11 @@ export class MenuCardComponent {
         console.log("menu id:", this.id);
 
         this.billService.removeMenuFromBill(this.billId, this.id).subscribe({
-            next: () => {},
+            next: () => {
+                this.toastr.error("remove menu Successfully", "remove", {
+                    timeOut: 2000,
+                });
+            },
         });
     }
 }
