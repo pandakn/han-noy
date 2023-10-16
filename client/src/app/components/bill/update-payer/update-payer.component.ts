@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { IUser } from "src/app/interfaces/user.interface";
 import { BillService } from "src/app/services/bill/bill.service";
+import { environment } from "src/environments/environment.development";
 
 @Component({
     selector: "app-update-payer",
@@ -19,6 +20,7 @@ export class UpdatePayerComponent implements OnInit {
     @Input() usersInRoom!: IUser[];
 
     @ViewChild("updatePayerModal") modal!: ElementRef;
+    @ViewChild("myModal") modal1!: ElementRef;
 
     selectedPayers: string[] = [];
 
@@ -27,6 +29,7 @@ export class UpdatePayerComponent implements OnInit {
     });
 
     payerIds = new FormArray([]);
+    imageUrl = environment.apiUrlImage;
 
     constructor(private billService: BillService) {}
 
@@ -43,11 +46,18 @@ export class UpdatePayerComponent implements OnInit {
         this.modal.nativeElement.showModal();
         // console.log("menu id:", this.menuInBillId);
     }
+    openModal1() {
+        this.modal1.nativeElement.showModal();
+        // console.log("menu id:", this.menuInBillId);
+    }
 
     closeModal() {
         this.modal.nativeElement.close();
     }
-
+    closeModal1() {
+        this.modal1.nativeElement.close();
+    }
+    
     onChoosePayer(id: string) {
         const payerIdsArray = this.updatePayerForm.get("payerIds") as FormArray;
 
