@@ -4,6 +4,7 @@ export interface RoomDocument extends Document {
     name: string;
     bio: string;
     users: Types.ObjectId[];
+    promptPay: string;
     qrCode: string;
     bill: ObjectId;
     createdAt: Date;
@@ -21,6 +22,9 @@ const roomSchema: Schema = new mongoose.Schema(
             type: String,
         },
         users: [{ type: mongoose.Types.ObjectId, ref: "User" }, { _id: false }],
+        promptPay: {
+            type: String,
+        },
         qrCode: {
             type: String,
         },
