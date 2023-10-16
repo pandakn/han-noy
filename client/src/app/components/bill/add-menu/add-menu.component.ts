@@ -1,5 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 import { BillService } from "src/app/services/bill/bill.service";
 import { Menu, MenuService } from "src/app/services/menu/menu.service";
 
@@ -28,21 +29,32 @@ export class AddMenuComponent {
     // slipFile!: File;
     selectedImage: string | null = null;
 
+    @ViewChild("addMenuModal") modal!: ElementRef;
+
     menuForm = new FormGroup({
         menu: new FormControl(this.selectedMenu, Validators.required),
-        price: new FormControl(0, [Validators.required, Validators.min(0)]),
-        payerIds: new FormArray([]),
+        price: new FormControl("", [Validators.required, Validators.min(0)]),
+        payerIds: new FormArray([], Validators.required),
         slip: new FormControl(null),
     });
 
     constructor(
         private menuService: MenuService,
-        private billService: BillService
+        private billService: BillService,
+        private toastr: ToastrService
     ) {}
 
     ngOnInit() {
         // this.roomId = this.route.snapshot.paramMap.get("id");
         this.fetchMenus();
+    }
+
+    openModal() {
+        this.modal.nativeElement.showModal();
+    }
+
+    closeModal() {
+        this.modal.nativeElement.close();
     }
 
     handleImageUpload(event: any): void {
@@ -105,13 +117,27 @@ export class AddMenuComponent {
 
         const data = {
             menu: this.menuForm.value.menu,
-            price: this.menuForm.value.price || 0,
+            price: this.menuForm.value.price,
             slip: this.menuForm.value.slip || null,
             payerIds: this.menuForm.value.payerIds || [],
         };
 
+        // console.log("menu:", this.menuForm);
+
+        if (!this.menuForm.get("price")?.valid) {
+            this.toastr.error("ใส่ราคาด้วยค่าาาาา", "Add menu", {
+                timeOut: 3000,
+            });
+            return;
+        } else if (!this.menuForm.get("payerIds")?.valid) {
+            this.toastr.error("ใส่ชื่อคนจ่ายด้วยเนาะ", "Add menu", {
+                timeOut: 3000,
+            });
+            return;
+        }
+
         formData.append("menu", data.menu || "");
-        formData.append("price", data.price.toString() || "");
+        formData.append("price", data.price || "");
 
         data.payerIds.forEach((payer) => {
             formData.append("payerIds[]", payer);
@@ -124,8 +150,12 @@ export class AddMenuComponent {
         this.billService.addMenuIntoBill(this.billId, formData).subscribe({
             next: (response) => {
                 console.log("Success data:", response);
+                this.toastr.error("add menu เรียบร้อยค่าาาาา", "Add menu", {
+                    timeOut: 1000,
+                });
                 this.menuForm.reset();
-                window.location.reload();
+
+                // window.location.reload();
             },
             error: (error) => {
                 console.error("Error:", error);

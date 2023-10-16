@@ -1,15 +1,15 @@
 <button
     [disabled]="!isDisable"
-    [ngClass]="{'active:translate-y-1 active:shadow-none': isDisable}"
-    class='bg-[#E3B7A0] py-1 px-4 rounded-md shadow-b shadow-[#BF9270] duration-300 transition-all hover:cursor-pointer disabled:opacity-50 text-[#684123]'
-    onclick="my_modal_1.showModal()"
+    [ngClass]="{ 'active:translate-y-1 active:shadow-none': isDisable }"
+    class="bg-[#E3B7A0] py-1 px-4 rounded-md shadow-b shadow-[#BF9270] duration-300 transition-all hover:cursor-pointer disabled:opacity-50 text-[#684123]"
+    (click)="openModal()"
 >
     <!-- class="btn btn-neutral" -->
     เพิ่ม
 </button>
 
 <!-- modal -->
-<dialog id="my_modal_1" class="modal">
+<dialog #addMenuModal class="modal">
     <div class="modal-box">
         <section class="py-6 dark:bg-gray-800 dark:text-gray-50">
             <form
@@ -28,12 +28,11 @@
                     <input
                         formControlName="price"
                         type="number"
-                        inputmode="none"
                         placeholder="Type here"
-                        class="w-full mt-2 text-5xl border-none lg:text-5xl focus:outline-none placeholder:text-4xl lg:placeholder:text-5xl placeholder:font-bold placeholder:text-gray-400 remove-arrow"
-                        placeholder="How much..."
+                        class="w-full mt-2 py-8 text-5xl input input-ghost focus:outline-none placeholder:text-5xl placeholder:font-bold remove-arrow"
+                        placeholder="เท่าไหร่จ๊ะ..."
                     />
-                    <div class="text-start">
+                    <!-- <div class="text-start">
                         <div
                             *ngIf="menuForm.get('price')?.hasError('required')"
                             class="text-red-500"
@@ -46,7 +45,7 @@
                         >
                             Price must be greater than or equal to 0.
                         </div>
-                    </div>
+                    </div> -->
                     <div
                         *ngIf="menuForm.get('price')?.hasError('max')"
                         class="text-red-500"

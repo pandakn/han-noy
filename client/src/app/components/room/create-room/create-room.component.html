@@ -1,15 +1,20 @@
-<button class="min-w-[130px] btn rounded-md btn-outline btn-md" onclick="my_modal_1.showModal()">Create Room</button>
-
+<button
+    class="min-w-[130px] btn rounded-md btn-outline btn-md"
+    (click)="openModal()"
+>
+    Create Room
+</button>
 
 <!-- modal -->
-<dialog id="my_modal_1" class="modal">
+<dialog #createRoomModal class="modal">
     <div class="modal-box">
         <section class="py-6 dark:bg-gray-800 dark:text-gray-50">
             <form
                 [formGroup]="roomForm"
                 novalidate=""
                 class="flex flex-col py-6 space-y-6 md:py-0 md:px-6"
-            >                <label class="block">
+            >
+                <label class="block">
                     <span class="mb-1">Prompt Pay</span>
                     <input
                         formControlName="promptPay"
@@ -52,10 +57,10 @@
 
         <!--  -->
         <div class="modal-action">
-            <form method="dialog">
-                <button class="btn">Close</button>
-            </form>
-            <button class="btn" (click)="onSubmitForm()">Submit Der</button>
+            <button class="btn" (click)="closeModal()">Close</button>
+            <button class="btn btn-outline" (click)="onSubmitForm()">
+                Submit Der
+            </button>
         </div>
     </div>
 </dialog>

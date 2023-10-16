@@ -35,14 +35,18 @@ export class CardComponent {
         this.roomService.deleteRoomById(roomId).subscribe({
             next: (response) => {
                 console.log("Room deleted successfully:", response);
-                this.toastr.success("Deleted Room Successfully", "Updated", {
-                    timeOut: 3000,
-                });
+                this.toastr.success(
+                    "Deleted Room Successfully",
+                    "Delete Room",
+                    {
+                        timeOut: 3000,
+                    }
+                );
 
                 // this.closeModal();
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1000);
             },
             error: (error) => {
                 console.error("Error deleting room:", error);
