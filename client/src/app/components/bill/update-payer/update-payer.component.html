@@ -28,16 +28,28 @@
 
             <div class="flex flex-col items-center gap-y-2">
                 <h1 class="text-3xl font-bold">{{ title }}</h1>
-                <p class="text-2xl italic">{{ price }}฿</p>
+                <p class="text-2xl italic">{{ formatPrice }}฿</p>
             </div>
-            <div *ngIf="!!slip" class="mt-5 cursor-pointer flex items-center justify-center " >
-                <img class="h-64 w-48 hover:scale-105" src="{{ imageUrl }}/{{ slip }}" alt="slip" (click)="openModal1()"/>
+            <div
+                *ngIf="!!slip"
+                class="mt-5 cursor-pointer flex items-center justify-center"
+            >
+                <img
+                    class="h-64 w-48 hover:scale-105"
+                    src="{{ imageUrl }}/{{ slip }}"
+                    alt="slip"
+                    (click)="openModal1()"
+                />
             </div>
             <!-- form -->
             <form [formGroup]="updatePayerForm" class="flex flex-col space-y-5">
                 <!-- payers -->
                 <label class="block">
-                    <span class="text-xl text-gray-400 italic">คนจ่าย</span>
+                    <span class="text-xl text-gray-400 italic"
+                        >คนจ่าย<span class="pl-2 space-x-2">
+                            (คนละ : {{ amount }})</span
+                        ></span
+                    >
                     <div class="flex flex-wrap gap-2 mt-3">
                         <div *ngFor="let payer of payers" class="relative">
                             <div
@@ -100,33 +112,35 @@
     </div>
 </dialog>
 
-
 <dialog #myModal class="modal">
     <div class="modal-box">
         <div
-        (click)="closeModal1()"
-        class="absolute bg-red-500 right-1 top-1 rounded-full hover:cursor-pointer hover:bg-white"
-        tabindex="0"
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="text-white hover:text-red-500"
-            aria-hidden="true"
+            (click)="closeModal1()"
+            class="absolute bg-red-500 right-1 top-1 rounded-full hover:cursor-pointer hover:bg-white"
+            tabindex="0"
         >
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-        </svg>
-    </div>
-    <div *ngIf="!!slip" class="mt-5 cursor-pointer flex items-center justify-center " >
-        <img src="{{ imageUrl }}/{{ slip }}" alt="slip"/>
-    </div>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-white hover:text-red-500"
+                aria-hidden="true"
+            >
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+            </svg>
+        </div>
+        <div
+            *ngIf="!!slip"
+            class="mt-5 cursor-pointer flex items-center justify-center"
+        >
+            <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
+        </div>
     </div>
 </dialog>

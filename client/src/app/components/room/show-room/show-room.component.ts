@@ -6,6 +6,7 @@ import { IUser } from "src/app/interfaces/user.interface";
 import { BillService } from "src/app/services/bill/bill.service";
 import { Menu, MenuService } from "src/app/services/menu/menu.service";
 import { RoomService } from "src/app/services/room/room.service";
+import { priceWithCommas } from "src/app/utils/formatPrice";
 
 @Component({
     selector: "app-show-room",
@@ -17,7 +18,7 @@ export class ShowRoomComponent {
     roomId: string | null = "";
     room!: IRoom;
     billId!: string;
-    switchComponent: boolean = true
+    switchComponent: boolean = true;
 
     keyword = "title";
     menus!: Menu[];
@@ -25,7 +26,7 @@ export class ShowRoomComponent {
     selectedMenu!: string;
     usersInRoom!: IUser[];
     userCount: number = 0;
-    totalPrice: number = 0;
+    totalPrice: string = "";
     totalUserAmount: number = 0;
     isShowAddMenuModal = false;
     totalAmountToPay: { [userId: string]: number } = {};
@@ -54,7 +55,9 @@ export class ShowRoomComponent {
                 console.log("room", this.room);
                 this.menusInBill = this.room.bill.menus;
                 this.billId = this.room.bill._id;
-                this.totalPrice = this.room.bill.totalPrice;
+                this.totalPrice = priceWithCommas(
+                    this.room.bill.totalPrice.toString()
+                );
                 this.usersInRoom = this.room.users;
                 this.userCount = this.usersInRoom.length;
                 this.calculateTotalAmountToPay();
@@ -79,23 +82,15 @@ export class ShowRoomComponent {
         console.log("isShowAddMenuModal");
     }
 
-    onSwitchMenu() {
-        this.switchComponent = true;
-        console.log(this.switchComponent)
-    }
-    onSwitchFriend() {
-        this.switchComponent = false;
-        console.log(this.switchComponent)
-    }
     calculateTotalAmountToPay() {
-    this.usersInRoom.forEach((user) => {
-      this.totalAmountToPay[user._id] = 0;
-    });
+        this.usersInRoom.forEach((user) => {
+            this.totalAmountToPay[user._id] = 0;
+        });
 
         this.menusInBill.forEach((menu) => {
             menu.payers.forEach((payer) => {
                 this.totalAmountToPay[payer._id] += menu.amount;
-            })
-        })
-  }
+            });
+        });
+    }
 }
