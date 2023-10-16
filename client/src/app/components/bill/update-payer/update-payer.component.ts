@@ -2,6 +2,8 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { IUser } from "src/app/interfaces/user.interface";
 import { BillService } from "src/app/services/bill/bill.service";
+import { priceWithCommas } from "src/app/utils/formatPrice";
+import { environment } from "src/environments/environment.development";
 
 @Component({
     selector: "app-update-payer",
@@ -18,7 +20,10 @@ export class UpdatePayerComponent implements OnInit {
     @Input() slip!: string;
     @Input() usersInRoom!: IUser[];
 
+    formatPrice = "";
+
     @ViewChild("updatePayerModal") modal!: ElementRef;
+    @ViewChild("myModal") modal1!: ElementRef;
 
     selectedPayers: string[] = [];
 
@@ -27,6 +32,7 @@ export class UpdatePayerComponent implements OnInit {
     });
 
     payerIds = new FormArray([]);
+    imageUrl = environment.apiUrlImage;
 
     constructor(private billService: BillService) {}
 
@@ -37,15 +43,24 @@ export class UpdatePayerComponent implements OnInit {
         this.usersInRoom = this.usersInRoom.filter(
             (user) => !this.payers.some((payer) => payer._id === user._id)
         );
+
+        this.formatPrice = priceWithCommas(this.price.toString());
     }
 
     openModal() {
         this.modal.nativeElement.showModal();
         // console.log("menu id:", this.menuInBillId);
     }
+    openModal1() {
+        this.modal1.nativeElement.showModal();
+        // console.log("menu id:", this.menuInBillId);
+    }
 
     closeModal() {
         this.modal.nativeElement.close();
+    }
+    closeModal1() {
+        this.modal1.nativeElement.close();
     }
 
     onChoosePayer(id: string) {

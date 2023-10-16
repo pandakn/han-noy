@@ -1,4 +1,4 @@
-<div class="relative mb-5 hover:cursor-pointer ">
+<div class="relative mb-5 hover:cursor-pointer">
     <div (click)="openModal()" class="hover:opacity-70">
         <div
             class="grid grid-cols-[70%10%20%] mx-2 text-sm text-center items-center text-[#8F6D52] mb-1"
@@ -6,13 +6,13 @@
             <div class="text-start text-2xl px-2 text-[#684123]">
                 {{ title }}
             </div>
-            <div>{{ price }}</div>
-            <div>{{ amount }}</div>
+            <div>{{ formatPrice }}</div>
+            <div>{{ formatAmount }}</div>
         </div>
         <div class="flex gap-x-1 items-center mx-5 mb-5">
             <!-- <div *ngIf="!!slip">
-                <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
-            </div> -->
+                    <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
+                </div> -->
             <div *ngFor="let payer of payers">
                 <img [src]="payer.avatar" [alt]="payer.name" />
                 <div class="mx-1 text-sm text-[#cb7b3f]">{{ payer.name }}</div>
@@ -36,7 +36,10 @@
     </div> -->
 
     <!-- delete icon -->
-    <button class="absolute pr-2 right-1 top-1" (click)="onRemoveMenuFromBill()">
+    <button
+        class="absolute pr-2 right-1 top-1"
+        (click)="onRemoveMenuFromBill()"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
