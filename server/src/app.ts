@@ -12,18 +12,19 @@ const PORT = process.env.PORT || 3000;
 connectToDatabase();
 
 const origin = [
-  // "http://localhost:3000",
-  "http://localhost:4200",
-  process.env.ORIGIN,
+    // "http://localhost:3000",
+    "http://localhost:4200",
+    process.env.ORIGIN,
 ];
 
 const app = express();
 app.use(
-  cors({
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    origin,
-  })
+    cors({
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        // credentials: true,
+        allowedHeaders: ["Content-Type"],
+        origin,
+    })
 );
 
 app.use(bodyParser.json());
@@ -33,5 +34,5 @@ app.use(morgan("dev"));
 app.use("/api", router());
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+    console.log(`Server started on port ${PORT}`);
 });
