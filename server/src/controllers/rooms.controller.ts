@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 import Bill, { BillDocument } from "../models/bills.model";
 import Room, { RoomDocument } from "../models/rooms.model";
 import User, { UserDocument } from "../models/users.model";
@@ -52,8 +53,17 @@ export const createRoom = async (req: Request, res: Response) => {
                 .json({ message: "Room name must be unique" });
         }
 
+        // Hash the prompt pay
+        const salt = await bcrypt.genSalt(10);
+        const hashedPromptPay = await bcrypt.hash(promptPay, salt);
+
         // Create a new room
-        const room = new Room({ name, bio, qrCode });
+        const room = new Room({
+            name,
+            bio,
+            promptPay: hashedPromptPay,
+            qrCode,
+        });
         const newRoom: RoomDocument = await room.save();
 
         // Create a corresponding bill for the room
