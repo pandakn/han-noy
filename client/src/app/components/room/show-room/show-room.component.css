@@ -1,4 +1,28 @@
-.hider::-webkit-scrollbar {
-    scroll-behavior: smooth;
-    display: none;
+.mat-mdc-tab-header {
+    background-color: #e3b7a0;
+    margin: 0.5rem 0rem 0.5rem 0rem;
+    border-radius: 0.375rem; /* Equivalent to 6px */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+table {
+    width: 100%;
+}
+th.player,
+th.pay {
+    width: 45%;
+}
+th.edit {
+    width: 10%;
+}
+
+.stats {
+    display: inline-grid;
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--b1) / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: hsl(var(--bc) / var(--tw-text-opacity));
+    border-radius: var(--rounded-box, 1rem /* 16px */);
+    margin: 0 auto; /* Center horizontally */
 }

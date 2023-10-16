@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { IMenu } from "src/app/interfaces/bill.interface";
@@ -13,6 +13,7 @@ import { RoomService } from "src/app/services/room/room.service";
 })
 export class FriendComponent implements OnInit {
     @ViewChild("myModal") modal!: ElementRef;
+    @Input() isDisable!: boolean;
 
     roomId: string | null = "";
     room!: IUser[];

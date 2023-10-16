@@ -1,5 +1,26 @@
-<button class="bg-[#E3B7A0] shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all px-2 py-1"
-(click)="openModal()">
+<button
+    class="rounded-md bg-[#E3B7A0] btn btn-sm btn-outline text-[#684123]"
+    (click)="openModal()"
+>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
+        />
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
+        />
+    </svg>
     ดูคิวอาร์โค้ด
 </button>
 
@@ -7,12 +28,16 @@
 <dialog #myModal class="modal">
     <div class="modal-box">
         <div class="mb-3 flex items-center justify-center">
-            <img [src]="room.qrCode" [alt]="room.qrCode">
+            <img [src]="room.qrCode" [alt]="room.qrCode" />
         </div>
-        <h1 class="text-xl text-center mb-5">{{promtpay}}</h1>
+        <h1 class="text-xl text-center mb-5">{{ promtpay }}</h1>
         <div class="flex justify-center items-center mt-2">
-            <button class="text-center bg-[#E3B7A0] py-2 w-full rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123]"
-            (click)="closeModal()">ปิด</button>
+            <button
+                class="text-center bg-[#E3B7A0] py-2 w-full rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123]"
+                (click)="closeModal()"
+            >
+                ปิด
+            </button>
         </div>
     </div>
 </dialog>

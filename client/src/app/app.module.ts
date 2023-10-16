@@ -8,6 +8,7 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./components/home/home.component";
 import { CreateRoomComponent } from "./components/room/create-room/create-room.component";
 import { ShowRoomComponent } from "./components/room/show-room/show-room.component";
+import { MatTabsModule } from "@angular/material/tabs";
 import { HttpClientModule } from "@angular/common/http";
 import { CardComponent } from "./components/room/card/card.component";
 import { RoomComponent } from "./components/room/room.component";
@@ -49,6 +50,7 @@ import { BillMenuComponent } from './components/room/bill-menu/bill-menu.compone
         ToastrModule.forRoot(), // ToastrModule added
         BrowserModule,
         ReactiveFormsModule,
+        MatTabsModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,

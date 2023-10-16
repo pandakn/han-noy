@@ -1,6 +1,39 @@
 .ng-autocomplete {
     width: 100%;
 }
-.corner {
-    border-radius: 25%;
+
+.ng-autocomplete ::ng-deep .autocomplete-container {
+    box-shadow: none;
+}
+
+.ng-autocomplete
+    ::ng-deep
+    .autocomplete-container
+    ::ng-deep
+    .input-container
+    ::ng-deep
+    input {
+    font-size: 0.875rem;
+    display: block;
+    padding: 0.375rem 1rem;
+    font-weight: 400;
+    color: #495057;
+    border: 1px solid #dde6e9;
+    border-radius: 0.25rem;
+}
+
+.ng-autocomplete
+    ::ng-deep
+    .autocomplete-container
+    ::ng-deep
+    .suggestions-container
+    ::ng-deep
+    .item
+    ::ng-deep
+    .row {
+    padding: 0.5rem 1rem;
+}
+
+.ng-autocomplete ::ng-deep .autocomplete-container ::ng-deep .not-found {
+    border: 0;
 }
