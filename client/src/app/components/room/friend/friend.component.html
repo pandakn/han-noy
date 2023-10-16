@@ -1,111 +1,44 @@
 <!-- <button
     class="flex gap-x-2 items-center text-xl cursor-pointer text-[#684123] hover:bg-[#BF9270] hover:px-2 hover:py-2 hover:rounded-md"
+<button
+    class="bg-[#E3B7A0] btn btn-sm btn-outline text-[#684123]"
     (click)="openModal()"
 >
     <svg
         xmlns="http://www.w3.org/2000/svg"
+        fill="none"
         viewBox="0 0 24 24"
-        fill="#FCFCFC"
+        stroke-width="1.5"
+        stroke="currentColor"
         class="w-6 h-6"
     >
         <path
-            fill-rule="evenodd"
-            d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z"
-            clip-rule="evenodd"
-        />
-        <path
-            d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
         />
     </svg>
     เพื่อน
 </button> -->
 
 <!-- modal -->
-<!-- <dialog #myModal class="modal">
-    <div class="modal-box">
-        <div
-            class="grid grid-cols-[80%20%] lg:grid-cols-[85%15%] items-center gap-x-2"
-        >
-            <app-autocomplete></app-autocomplete>
-            <button
-                class="text-center bg-[#E3B7A0] py-2 px-2 rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123] text-xs"
-            >
-                เพิ่มเพื่อน
-            </button>
-        </div>
-        <div class="mb-5">
-            <div class="flex flex-wrap gap-2 items-center mt-5 mb-5">
-                <div *ngFor="let payer of room">
-                    <div class="relative">
-                        <div
-                        class="bg-red-500 -top-1 -right-2 absolute rounded-full cursor-pointer hover:bg-white"
-                        >
-                            <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="text-white hover:text-red-500"
-                            aria-hidden="true"
-                        >
-                                <path d="M18 6 6 18" />
-                                <path d="m6 6 12 12" />
-                            </svg>
-                        </div>
-                    </div>
-                    <img [src]="payer.avatar" [alt]="payer.name" />
-                    <div class="text-center text-sm text-[#cb7b3f]">
-                        {{ payer.name }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="flex justify-center items-center mt-2">
-            <button
-                class="text-center bg-[#E3B7A0] py-2 w-full rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123]"
-                (click)="closeModal()"
-            >
-                ปิด
-            </button>
-        </div>
-    </div>
-</dialog> -->
 
-<div class="mx-2 bg-[#ffead4c0]">
-    <button
-        class="bg-[#E3B7A0] py-1 px-1 shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all"
-        (click)="goBackToMenu()"
-    >
-        Back to รายการ
-    </button>
-    <div
-        class="grid grid-cols-[75%25%] lg:grid-cols-[85%15%] items-center gap-x-2 pt-[24px]"
-    >
-        <app-autocomplete
-            [data]="friends"
-            [keyword]="keyword"
-            placeholder="Select friend..."
-            (selectedValueEvent)="receiveSelectedFriend($event)"
-        ></app-autocomplete>
+<div class="p-4">
+    <div class="grid grid-cols-5 gap-3 items-center">
+        <app-autocomplete class="grid col-span-4 rounded-md"></app-autocomplete>
         <button
-            (click)="addFriendIntoRoom()"
-            class="text-center mr-2 bg-[#E3B7A0] py-2 rounded-md shadow-b shadow-[#BF9270] active:translate-y-1 active:shadow-none duration-300 transition-all cursor-pointer text-[#684123] text-xs"
+            [disabled]="!isDisable"
+            [ngClass]="{ 'active:translate-y-1 active:shadow-none': isDisable }"
+            class="btn btn-sm btn-outline bg-[#E3B7A0] shadow-[#BF9270] hover:cursor-pointer disabled:opacity-50 text-[#684123]"
         >
             เพิ่มเพื่อน
         </button>
     </div>
-
-    <div class="mb-5 mx-3">
-        <div class="flex flex-wrap gap-2 items-center mt-5 mb-5">
+    <div class="">
+        <div class="flex flex-wrap gap-2 items-center my-6 mx-4 justify-center">
             <div *ngFor="let payer of room">
                 <div class="relative">
                     <div
-                        (click)="removeFriendFromRoom(payer._id)"
                         class="bg-red-500 -top-1 -right-2 absolute rounded-full cursor-pointer hover:bg-white"
                     >
                         <svg
@@ -130,27 +63,6 @@
                 <div class="text-center text-sm text-[#cb7b3f]">
                     {{ payer.name }}
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="border-dashed border-b-2 border-[#684123] mb-4"></div>
-
-    <div class="h-[62vh] max-h-full overflow-y-auto hider">
-        <div
-            class="text-[#684123] lg:grid lg:grid-cols-2 lg:gap-x-5 lg:items-center"
-        >
-            <div
-                class="grid grid-cols-2 items-center justify-between mx-2 mb-2"
-            >
-                <h1 class="text-xl">เหมียว</h1>
-                <h3 class="text-end mt-1">30 บาท</h3>
-            </div>
-            <div
-                class="grid grid-cols-2 items-center justify-between mx-2 mb-2"
-            >
-                <h1 class="text-xl">เหมียว</h1>
-                <h3 class="text-end mt-1">30 บาท</h3>
             </div>
         </div>
     </div>
