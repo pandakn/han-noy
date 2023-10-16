@@ -10,9 +10,9 @@
             <div>{{ amount }}</div>
         </div>
         <div class="flex gap-x-1 items-center mx-5 mb-5">
-            <!-- <div *ngIf="!!slip">
-                <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
-            </div> -->
+                <!-- <div *ngIf="!!slip">
+                    <img src="{{ imageUrl }}/{{ slip }}" alt="slip" />
+                </div> -->
             <div *ngFor="let payer of payers">
                 <img [src]="payer.avatar" [alt]="payer.name" />
                 <div class="mx-1 text-sm text-[#cb7b3f]">{{ payer.name }}</div>
