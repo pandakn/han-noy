@@ -91,6 +91,16 @@ export class FriendComponent implements OnInit {
                 },
                 error: (error) => {
                     console.error("Error:", error);
+                    if (error.error.message === "User is already in the room") {
+                        this.toastr.error(
+                            "แหกตาด้วยค่าาาา มีเพื่อนในห้องแล้วเนาะ",
+                            toastTitle,
+                            {
+                                timeOut: 3000,
+                            }
+                        );
+                        return;
+                    }
                     this.toastr.error(error.error.message, toastTitle, {
                         timeOut,
                     });
