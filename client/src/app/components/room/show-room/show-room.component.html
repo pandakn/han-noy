@@ -133,11 +133,11 @@
                     <thead class="pt-20">
                         <tr class="text-lg">
                             <th class="player">ชื่อคน</th>
-                            <th class="pay">จ่าย</th>
-                            <th class="edit"></th>
+                            <th class="pay text-center">จ่าย</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    
+                    <tbody class="overflow-y-auto">
                         <tr class="hover" *ngFor="let user of usersInRoom">
                             <td>
                                 <div class="flex items-center space-x-3">
@@ -158,7 +158,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span class="font-bold">
                                     {{
                                         totalAmountToPay[user._id]
@@ -166,11 +166,6 @@
                                     }}
                                 </span>
                             </td>
-                            <th>
-                                <button class="btn btn-ghost btn-xs">
-                                    details
-                                </button>
-                            </th>
                         </tr>
                     </tbody>
                 </table>
