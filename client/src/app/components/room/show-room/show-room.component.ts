@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { IMenu } from "src/app/interfaces/bill.interface";
 import { IRoom } from "src/app/interfaces/room.interface";
@@ -9,6 +9,7 @@ import { RoomService } from "src/app/services/room/room.service";
 
 @Component({
     selector: "app-show-room",
+    encapsulation: ViewEncapsulation.None,
     templateUrl: "./show-room.component.html",
     styleUrls: ["./show-room.component.css"],
 })
@@ -16,14 +17,16 @@ export class ShowRoomComponent {
     roomId: string | null = "";
     room!: IRoom;
     billId!: string;
-
     keyword = "title";
     menus!: Menu[];
     menusInBill!: IMenu[];
     selectedMenu!: string;
     usersInRoom!: IUser[];
-
+    userCount: number = 0;
+    totalPrice: number = 0;
+    totalUserAmount: number = 0;
     isShowAddMenuModal = false;
+    totalAmountToPay: { [userId: string]: number } = {};
 
     constructor(
         private route: ActivatedRoute,
@@ -49,7 +52,10 @@ export class ShowRoomComponent {
                 console.log("room", this.room);
                 this.menusInBill = this.room.bill.menus;
                 this.billId = this.room.bill._id;
+                this.totalPrice = this.room.bill.totalPrice;
                 this.usersInRoom = this.room.users;
+                this.userCount = this.usersInRoom.length;
+                this.calculateTotalAmountToPay();
             },
         });
     }
@@ -70,4 +76,16 @@ export class ShowRoomComponent {
         this.isShowAddMenuModal = true;
         console.log("isShowAddMenuModal");
     }
+
+    calculateTotalAmountToPay() {
+    this.usersInRoom.forEach((user) => {
+      this.totalAmountToPay[user._id] = 0;
+    });
+
+        this.menusInBill.forEach((menu) => {
+            menu.payers.forEach((payer) => {
+                this.totalAmountToPay[payer._id] += menu.amount;
+            })
+        })
+  }
 }

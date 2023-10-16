@@ -1,63 +1,71 @@
-<div>
-    <!-- back button -->
-    <div class="flex items-center justify-between mb-3 mx-2 text-[#684123]">
-        <button
-            class="bg-[#E3B7A0] py-1 px-1 shadow-b shadow-[#BF9270] rounded-md active:translate-y-1 active:shadow-none duration-300 transition-all"
-            [routerLink]="'/'"
+<div class="flex justify-between mb-3 mx-2 text-[#684123]">
+    <button
+        class="bg-[#E3B7A0] btn btn-sm btn-outline text-[#684123]"
+        [routerLink]="'/'"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
         >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="3"
-                stroke="#684123"
-                class="w-6 h-6"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-            </svg>
-        </button>
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+            />
+        </svg>
+        <span class="-ml-1">ย้อนกลับ</span>
+    </button>
+
+    <div class="flex flex-row space-x-2">
         <app-show-qrcode></app-show-qrcode>
+        <app-friend></app-friend>
+    </div>
+</div>
+
+<div class="flex flex-row rounded-md shadow-sm border mx-auto bg-[#E3B7A0]">
+    <div class="stat place-items-center">
+        <div class="stat-title text-xl text-[#684123]">จำนวนคน</div>
+        <div class="stat-value">{{ userCount }}</div>
     </div>
 
-    <div class="bg-[#ffead4c0]">
-        <!-- menu bar -->
-        <div
-            class="bg-[#E3B7A0] h-[51px] flex items-center justify-around px-10 lg:justify-between lg:px-5 sticky top-7"
-        >
-            <button class="flex items-center gap-x-1 text-[#684123] text-xl">
+    <div class="stat place-items-center">
+        <div class="stat-title text-xl text-[#684123]">ราคารวม</div>
+        <div class="stat-value">{{ totalPrice }}</div>
+    </div>
+</div>
+
+<div class="">
+    <!-- menu bar -->
+    <mat-tab-group>
+        <mat-tab class="h-[51px] sticky">
+            <ng-template mat-tab-label>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="3"
-                    stroke="#FCFCFC"
-                    class="w-6 h-7"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
                 >
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5"
+                        d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                     />
                 </svg>
                 รายการ
-            </button>
-            <app-friend></app-friend>
-        </div>
-
-        <!-- input and add menu -->
-        <div class="">
-            <div
-                class="grid grid-cols-[80%10%] lg:grid-cols-[89%10%] py-[24px] items-center gap-x-5 mx-2"
-            >
+            </ng-template>
+            <!-- !! Content here -->
+            <div class="grid grid-cols-5 p-4 gap-3 items-center">
                 <app-autocomplete
                     [data]="menus"
                     [keyword]="keyword"
                     (selectedMenuEvent)="receiveSelectedMenu($event)"
-                    class="{`bg-black`}"
+                    class="grid col-span-4 rounded-md border shadow-md"
                 ></app-autocomplete>
 
                 <app-add-menu
@@ -65,38 +73,8 @@
                     [billId]="room.bill._id"
                     [usersInRoom]="room.users"
                     [isDisable]="!!selectedMenu"
+                    class="grid col-span-1 pb-1"
                 ></app-add-menu>
-            </div>
-
-            <!-- input and add menu -->
-            <!-- <div class="">
-                <div
-                    class="grid grid-cols-[80%10%] lg:grid-cols-[89%10%] py-[24px] items-center gap-x-5 mx-2"
-                >
-                    <app-autocomplete
-                        [data]="menus"
-                        [keyword]="keyword"
-                        (selectedMenuEvent)="receiveSelectedMenu($event)"
-                    ></app-autocomplete>
-
-                    <app-add-menu
-                        [selectedMenu]="selectedMenu"
-                        [billId]="room.bill._id"
-                        [usersInRoom]="room.users"
-                        [isDisable]="!!selectedMenu"
-                    ></app-add-menu>
-                </div>
-            </div> -->
-
-            <!-- bar detail -->
-            <div
-                class="grid grid-cols-[70%10%20%] mx-2 text-sm text-center items-center text-[#B18B6D]"
-            >
-                <div class="text-xl text-start text-[#8F6D52] px-2">
-                    ชื่อรายการ
-                </div>
-                <div>ราคา</div>
-                <div>คนละ</div>
             </div>
 
             <!-- Bill -->
@@ -114,6 +92,77 @@
                     ></app-menu-card>
                 </div>
             </div>
-        </div>
-    </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                    />
+                </svg>
+                คนจ่าย
+            </ng-template>
+            <div class="overflow-x-auto mx-6">
+                <table class="table table-zebra">
+                    <!-- head -->
+
+                    <thead>
+                        <tr class="text-lg">
+                            <th class="player">ชื่อคน</th>
+                            <th class="pay">จ่าย</th>
+                            <th class="edit"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover" *ngFor="let user of usersInRoom">
+                            <td>
+                                <div class="flex items-center space-x-3">
+                                    <div class="avatar">
+                                        <div
+                                            class="mask mask-squircle w-12 h-12"
+                                        >
+                                            <img
+                                                [src]="user.avatar"
+                                                alt="{{ user.name }} Avatar"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">
+                                            {{ user.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="font-bold">
+                                    {{
+                                        totalAmountToPay[user._id]
+                                            | currency
+                                                : "THB"
+                                                : "symbol-narrow"
+
+                                    }}
+                                </span>
+                            </td>
+                            <th>
+                                <button class="btn btn-ghost btn-xs">
+                                    details
+                                </button>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>
