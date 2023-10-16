@@ -150,12 +150,13 @@ export class AddMenuComponent {
         this.billService.addMenuIntoBill(this.billId, formData).subscribe({
             next: (response) => {
                 console.log("Success data:", response);
-                this.toastr.error("add menu เรียบร้อยค่าาาาา", "Add menu", {
+                this.toastr.success("add menu เรียบร้อยค่าาาาา", "Add menu", {
                     timeOut: 1000,
                 });
                 this.menuForm.reset();
+                // this.closeModal();
 
-                // window.location.reload();
+                window.location.reload();
             },
             error: (error) => {
                 console.error("Error:", error);

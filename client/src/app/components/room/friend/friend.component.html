@@ -25,9 +25,16 @@
 
 <div class="p-4">
     <div class="grid grid-cols-5 gap-3 items-center">
-        <app-autocomplete class="grid col-span-4 rounded-md"></app-autocomplete>
+        <app-autocomplete
+            [data]="friends"
+            [keyword]="keyword"
+            placeholder="มีเพื่อนคบมั้ยจ๊ะ..."
+            (selectedValueEvent)="receiveSelectedFriend($event)"
+            class="grid col-span-4 rounded-md"
+        ></app-autocomplete>
         <button
-            [disabled]="!isDisable"
+            (click)="addFriendIntoRoom()"
+            [disabled]="!selectedFriend"
             [ngClass]="{ 'active:translate-y-1 active:shadow-none': isDisable }"
             class="btn btn-sm btn-outline bg-[#E3B7A0] shadow-[#BF9270] hover:cursor-pointer disabled:opacity-50 text-[#684123]"
         >
@@ -37,7 +44,7 @@
     <div class="">
         <div class="flex flex-wrap gap-2 items-center my-6 mx-4 justify-center">
             <div *ngFor="let payer of room">
-                <div class="relative">
+                <div class="relative" (click)="removeFriendFromRoom(payer._id)">
                     <div
                         class="bg-red-500 -top-1 -right-2 absolute rounded-full cursor-pointer hover:bg-white"
                     >

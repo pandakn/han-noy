@@ -22,7 +22,6 @@
 
     <div class="flex flex-row space-x-2">
         <app-show-qrcode></app-show-qrcode>
-
     </div>
 </div>
 
@@ -41,6 +40,7 @@
 <div class="">
     <!-- menu bar -->
     <mat-tab-group>
+        <!-- menu -->
         <mat-tab class="h-[51px] sticky">
             <ng-template mat-tab-label>
                 <svg
@@ -65,6 +65,7 @@
                     [data]="menus"
                     [keyword]="keyword"
                     (selectedValueEvent)="receiveSelectedMenu($event)"
+                    placeholder="กินอะไรดีจ๊ะ..."
                     class="grid col-span-4 rounded-md"
                 ></app-autocomplete>
 
@@ -77,8 +78,18 @@
                 ></app-add-menu>
             </div>
 
+            <div
+                class="grid grid-cols-[70%10%20%] mx-2 my-4 text-sm text-center items-center text-[#8F6D52]"
+            >
+                <div class="text-start text-2xl px-2 text-[#684123]">
+                    รายการ
+                </div>
+                <div>ราคา</div>
+                <div>คนละ</div>
+            </div>
+
             <!-- Bill -->
-            <div class="h-[75vh] max-h-full overflow-y-auto hider">
+            <div class="h-[60vh] max-h-full overflow-y-auto hider">
                 <div *ngFor="let menu of menusInBill">
                     <app-menu-card
                         [id]="menu._id"
@@ -93,6 +104,8 @@
                 </div>
             </div>
         </mat-tab>
+
+        <!-- Friend -->
         <mat-tab>
             <ng-template mat-tab-label>
                 <svg
@@ -116,7 +129,7 @@
                 <table class="table table-zebra">
                     <!-- head -->
 
-                    <thead>
+                    <thead class="pt-20">
                         <tr class="text-lg">
                             <th class="player">ชื่อคน</th>
                             <th class="pay">จ่าย</th>
