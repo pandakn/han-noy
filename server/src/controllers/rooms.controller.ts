@@ -97,9 +97,14 @@ export const updateRoomById = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Room not found" });
         }
 
+        // Hash the prompt pay
+        const salt = await bcrypt.genSalt(10);
+        const hashedPromptPay = await bcrypt.hash(promptPay, salt);
+
         room.name = name;
         room.bio = bio;
         room.qrCode = qrCode;
+        room.promptPay = hashedPromptPay;
 
         // Save the updated rooms
         const updatedRoom: RoomDocument = await room.save();
